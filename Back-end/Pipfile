@@ -8,6 +8,7 @@ django = "*"
 djangorestframework = "*"
 djoser = "*"
 pillow = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
