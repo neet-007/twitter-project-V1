@@ -9,6 +9,7 @@ class UserSerializers(serializers.ModelSerializer):
 class PostSerializers(serializers.ModelSerializer):
     user_post = UserSerializers(read_only=True)
     likes = serializers.IntegerField(read_only=True)
+    is_comment = serializers.BooleanField(read_only=True)
     class Meta:
         model = Post
         fields = '__all__'
@@ -19,6 +20,8 @@ class LikeSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 class FollowSerializers(serializers.ModelSerializer):
+    to_follow = UserSerializers(read_only=True)
+    following = UserSerializers(read_only=True)
     class Meta:
         model = Follow
         fields = '__all__'

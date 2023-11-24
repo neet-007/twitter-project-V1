@@ -10,5 +10,7 @@ urlpatterns = [
     path('edit-or-delete-post/<int:pk>',views.edit_or_delete_post.as_view(), name='edit-or-delete-post'),
     path('show-users', views.show_users.as_view(), name='show-users'),
     path('show-followers/<int:pk>', views.show_followers.as_view(), name='show-followers'),
-    path('show-following/<int:pk>', views.show_following.as_view(), name='show-following')
+    path('show-following/<int:pk>', views.show_following.as_view(), name='show-following'),
+    path('follow/<int:pk>', views.Follow_view.as_view(), name='follow'),
+    path('unfollow/<int:pk>', views.Unfollow.as_view(), name='unfollow')
 ]

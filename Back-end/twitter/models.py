@@ -16,6 +16,7 @@ class Post(models.Model):
     user_post = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_post')
     post_content = models.CharField(max_length=240)
     post_img = models.ImageField(null=True, blank=True)
+    is_comment = models.BooleanField(default=False)
     likes = models.IntegerField(default=0)
 
     def __str__(self) -> str:
