@@ -2,16 +2,24 @@ import React from 'react'
 import { PatchCheck, ThreeDots } from 'react-bootstrap-icons'
 import IconHoverEffect from './UI/IconHoverEffect'
 
-function ProfileCard({className, isVerified=true}) {
+function ProfileCard({className, isVerified=true, isMobileSideNav}) {
   return (
     <div className={className}>
-        <span>Username</span>
-        {isVerified ? <PatchCheck/>:''}
+        <span>Username {isVerified ? <PatchCheck/>:''}</span>
         <span className='profile-card-mention'>@Username</span>
-        <span>Nov14</span>
-        <IconHoverEffect className={'profile-card-select'}>
-            <ThreeDots/>
-        </IconHoverEffect>
+        {
+            !isMobileSideNav ? <><span>Nov14</span>
+            <IconHoverEffect className={'profile-card-select'}>
+                <ThreeDots/>
+            </IconHoverEffect>
+        </> : ''}
+        {
+            isMobileSideNav ? <div>
+                                <span>1 Following</span>
+                                <span>1 Followers</span>
+                              </div>
+                            :''
+        }
     </div>
   )
 }

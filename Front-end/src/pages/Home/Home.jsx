@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import SwitchButton from '../../components/UI/SwitchButton'
 import SwitchButtonContainer from '../../components/UI/SwitchButtonContainer'
 import PostCard from '../../components/PostCard'
+import MobileSideNav from '../../components/mobile/MobileSideNav'
 function Home() {
   const TABS = ['Recent', 'Following']
   const [selectedTab, setSelectedTab] = useState('Recent')
@@ -14,10 +15,7 @@ function Home() {
         })}
       </SwitchButtonContainer>
       <div className="home-container">
-        <PostCard/>
-        <PostCard/>
-        <PostCard/>
-        <PostCard/>
+        
       </div>
     </>
   )
