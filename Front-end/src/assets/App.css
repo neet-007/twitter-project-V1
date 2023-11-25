@@ -1,0 +1,121 @@
+*,*::after,*::before{
+    box-sizing: border-box;
+}
+
+:root{
+    --nav-bar-padding: 0.25rem;
+    --switch-button-padding: 0.75rem;
+    --profile-pic-width: 2rem;
+    --switch-button-font-size: 1rem;
+}
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.side-nav-bar-nav{
+    padding: 0 5%;
+}
+.side-nav-bar-ul{
+    list-style: none;
+    padding: 0;
+}
+.side-nav-bar-ul > li{
+    padding: var(--nav-bar-padding) 0;
+}
+.icon-hover-effect{
+    border-radius: 50%;
+    padding: 0.4rem;
+    display: flex;
+    align-items: center;
+    transition: outline background-color 300ms ease-in-out;
+}
+.icon-hover-effect:hover{
+    outline: rgba(218, 223, 225, 0.7);
+    background-color: rgba(218, 223, 225, 0.7);
+}
+.mobile-top-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--nav-bar-padding) 1rem;
+}
+.mobile-bottom-bar{
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    justify-content: space-around;
+}
+.profile-pic-comp{
+    width: var(--profile-pic-width);
+    border-radius: 50%;
+}
+.switch-button-container{
+    display: flex;
+    flex-shrink: 0;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.switch-button{
+    flex-basis: 100%;
+    border: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    font-size: var(--switch-button-font-size);
+    padding: var(--switch-button-padding);
+    color: black;
+    border: none;
+    transition: background-color 300ms;
+}
+.switch-button:hover{
+    background-color: rgba(218, 223, 225, 0.7);
+}
+.switch-button-selected{
+    border-bottom: 2px solid #0275d8;
+    font-weight: bold;
+}
+.post-card-container{
+    display: grid;
+    padding: 1rem;
+    border-bottom: 1px solid black;
+    gap: 0.5rem;
+    grid-template-areas:
+    'profile-pic profile-card profile-card profile-card profile-card'
+    'profile-pic post-content post-content post-content post-content'
+    'profile-pic image image image image'
+    'profile-pic post-interact post-interact post-interact post-interact';
+}
+.profile-pic-post-grid{
+    grid-area: profile-pic;
+}
+.profile-card{
+    grid-area: profile-card;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+.profile-card-mention{
+    color: gray;
+}
+.profile-card-select{
+    margin-left: auto;
+}
+.post-content{
+    grid-area: post-content;
+}
+.post-img{
+    grid-area: image;
+    border-radius: 2rem;
+    width: 100%;
+}
+.post-interact{
+    grid-area: post-interact;
+}
+.home-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

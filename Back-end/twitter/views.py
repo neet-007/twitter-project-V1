@@ -64,7 +64,11 @@ class add_like(generics.UpdateAPIView):
         post = get_object_or_404(Post, id=self.kwargs['pk'])
 
         if Like.objects.filter(user_like=request.user, post=post).exists():
-            return Response({'message:':'remeber to dislike'})
+            Like.objects.filter(user_like=request.user, post=post).delete()
+
+            post.likes -= 1
+            post.save()
+            return Response({'message:':'dislike succesfull'}, status.HTTP_200_OK)
 
         like = Like.objects.create(
             user_like = request.user,

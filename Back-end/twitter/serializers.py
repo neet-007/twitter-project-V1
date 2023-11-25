@@ -1,9 +1,6 @@
 from rest_framework import serializers
-from .models import  User, Post, Comment, Like, Follow
-from djoser.serializers import UserCreateSerializer
-from django.contrib.auth import get_user_model
+from .models import User, Post, Comment, Like, Follow
 
-#User = get_user_model()
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
