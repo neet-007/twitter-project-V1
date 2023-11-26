@@ -11,6 +11,9 @@
 .p-1{
     padding: 0 1rem;
 }
+.p-2{
+    padding: 1rem;
+}
 body{
     margin: 0;
     padding: 0;
@@ -184,6 +187,24 @@ body{
 .switch-button-selected{
     border-bottom: 2px solid #0275d8;
     font-weight: bold;
+}
+.search-bar-icon{
+    background-color: #E1E8ED;
+    padding: 0.5rem;
+    border-radius: 2rem;
+}
+.search-bar-container{
+    background-color: #E1E8ED;
+    padding: 0.75rem;
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+}
+.search-bar-bar{
+    outline: none;
+    border: none;
+    background: transparent;
+    padding-left: 1rem;
 }
 .post-card-container{
     display: grid;

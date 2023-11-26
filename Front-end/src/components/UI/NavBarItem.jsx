@@ -1,9 +1,9 @@
 import React from 'react'
 import { Bookmark, Cash, JournalText, People, Person, Twitter } from 'react-bootstrap-icons'
 
-function NavBarItem({item}) {
+function NavBarItem({item, className}) {
   return (
-    <div className='nav-bar-item'>
+    <div className={`nav-bar-item ${className}`}>
         {item == 'Person' ? <Person size={30}/> :
          item == 'Twitter' ? <Twitter size={30}/>:
          item == 'Lists' ? <JournalText size={30}/>:
