@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import ProfilePic from './ProfilePic'
-
+import {Image, FiletypeGif, Calendar, GeoAlt} from 'react-bootstrap-icons'
 function updateTextareaSize(textarea){
     if (textarea == null) return
 
@@ -22,13 +22,20 @@ function PostForm() {
     },[inputValue])
   return (
     <form>
-        <ProfilePic/>
-        <textarea className='form-textarea' placeholder="What's happining?"
-        ref={inputRef}
-        style={{height:0}}
-        value={inputValue}
-        onChange={(e)=>setInputValue(e.target.value)}/>
-        <div className="interactions"></div>
+        <div className="post-form-pic-textarea">
+            <ProfilePic/>
+            <textarea className='form-textarea' placeholder="What's happining?"
+            ref={inputRef}
+            style={{height:0}}
+            value={inputValue}
+            onChange={(e)=>setInputValue(e.target.value)}/>
+        </div>
+        <div className="post-form-interactions">
+            <Image />
+            <FiletypeGif />
+            <Calendar />
+            <GeoAlt />
+        </div>
     </form>
   )
 }

@@ -5,6 +5,8 @@ import PostCard from '../../components/PostCard'
 import MobileSideNav from '../../components/mobile/MobileSideNav'
 import TwitterButton from '../../components/UI/TwitterButton'
 import PostForm from '../../components/PostForm'
+import PostModal from '../../components/mobile/PostModal'
+import MobilePostButton from '../../components/mobile/MobilePostButton'
 function Home() {
   const TABS = ['Recent', 'Following']
   const [selectedTab, setSelectedTab] = useState('Recent')
@@ -17,7 +19,7 @@ function Home() {
         })}
       </SwitchButtonContainer>
       <div className="home-container">
-        <PostForm/>
+        
       </div>
     </>
   )
