@@ -12,10 +12,10 @@ function ProfileInfo() {
             <div className="info-buttons">
                 <IconButton Name={'select'}/>
                 <IconButton Name={'message'}/>
-                <TwitterButton color={'black'}/>
+                <TwitterButton Name={'Follow'}color={'black'}/>
             </div>
         </div>
-        <ProfileCard className={'p-1'}/>
+        <ProfileCard className={'p-1 one-column-profile-card'} profileInfo={true}/>
     </section>
   )
 }

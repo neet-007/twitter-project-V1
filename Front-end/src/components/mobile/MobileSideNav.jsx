@@ -12,7 +12,7 @@ function MobileSideNav() {
             <ProfilePic/>
             <PlusCircle/>
         </div>
-        <ProfileCard className={'mobile-side-nav-profile-card'} isMobileSideNav={true}/>
+        <ProfileCard className={'one-column-profile-card'} isMobileSideNav={true}/>
         <nav className='moblie-side-nav-nav'>
             <ul className='moblie-side-nav-ul'>
                 {SIDE_NAV_ITEMS.map(item => {

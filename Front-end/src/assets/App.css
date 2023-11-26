@@ -205,7 +205,7 @@ body{
     align-items: center;
     gap: 0.3rem;
 }
-.mobile-side-nav-profile-card{
+.one-column-profile-card{
     display: flex;
     flex-direction: column;
 }
@@ -250,4 +250,17 @@ body{
     position: absolute;
     left: 1rem;
     bottom: 0;
+}
+.bio{
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+.date-occupaton{
+    display: flex;
+    gap: 1rem;
+}
+.date-occupaton > *{
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
 }
