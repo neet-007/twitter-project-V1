@@ -4,11 +4,12 @@ import ProfileInfo from '../../components/ProfileInfo'
 import PostCard from '../../components/PostCard'
 import SwitchButton from '../../components/UI/SwitchButton'
 import SwitchButtonContainer from '../../components/UI/SwitchButtonContainer'
+import MobileBottomBar from '../../components/mobile/MobileBottomBar'
 function Profile() {
   const PROFILE_TABS = ['Profile','Repiles','Media','Likes']
   const [selectedTab, setSelectedTab] = useState('Profile')
   return (
-    <div>
+    <>
         <PageTopBar/>
         <ProfileInfo/>
         <SwitchButtonContainer>
@@ -20,7 +21,8 @@ function Profile() {
         <PostCard/>
         <PostCard/>
         <PostCard/>
-    </div>
+        <MobileBottomBar/>
+    </>
   )
 }
 

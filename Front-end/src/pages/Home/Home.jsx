@@ -7,11 +7,14 @@ import TwitterButton from '../../components/UI/TwitterButton'
 import PostForm from '../../components/PostForm'
 import PostModal from '../../components/mobile/PostModal'
 import MobilePostButton from '../../components/mobile/MobilePostButton'
+import MobileTopBar from '../../components/mobile/MobileTopBar'
+import MobileBottomBar from '../../components/mobile/MobileBottomBar'
 function Home() {
   const TABS = ['Recent', 'Following']
   const [selectedTab, setSelectedTab] = useState('Recent')
   return (
     <>
+      <MobileTopBar/>
       <SwitchButtonContainer>
         {TABS.map(tab => {
           return <SwitchButton key={tab} Name={tab} Selected={selectedTab}
@@ -19,8 +22,11 @@ function Home() {
         })}
       </SwitchButtonContainer>
       <div className="home-container">
-        
+        <PostCard/>
+        <PostCard/>
+        <PostCard/>
       </div>
+      <MobileBottomBar/>
     </>
   )
 }
