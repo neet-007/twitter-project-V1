@@ -4,13 +4,30 @@ import SideNavBar from './components/SideNavBar'
 import MobileBottomBar from './components/mobile/MobileBottomBar'
 import MobileTopBar from './components/mobile/MobileTopBar'
 import FollowInfo from './pages/FollowInfo/FollowInfo'
-import Home from './pages/Home/Home'
-import Notifications from './pages/Notificatoins/Notifications'
-import Profile from './pages/Profile/Profile'
-import Search from './pages/Search/Search'
+import MobileSideNav from './components/mobile/MobileSideNav'
+//import Home from './pages/Home/Home'
+//import Notifications from './pages/Notificatoins/Notifications'
+//import Profile from './pages/Profile/Profile'
+//import Search from './pages/Search/Search'
 import AuthLayout from './pages/AuthSection/AuthLayout'
-import SignUp from './pages/AuthSection/SignUp/SignUp'
-import Login from './pages/AuthSection/LogIn/LogIn'
+//import SignUp from './pages/AuthSection/SignUp/SignUp'
+//import Login from './pages/AuthSection/LogIn/LogIn'
+import MainLayout from './pages/MainLayout'
+//import Lists from './pages/Lists/Lists'
+//import Bookmarks from './pages/Bookmarks/Bookmarks'
+import Soon from './pages/Soon'
+//import PostModal from './components/mobile/PostModal'
+import { LazyLoad } from './utils/LazyLoad'
+
+const SignUp = LazyLoad('../pages/AuthSection/SignUp/SignUp')
+const Login = LazyLoad('../pages/AuthSection/LogIn/LogIN')
+const Home = LazyLoad('../pages/Home/Home')
+const Profile = LazyLoad('../pages/Profile/Profile')
+const Search = LazyLoad('../pages/Search/Search')
+const Notifications = LazyLoad('../pages/Notificatoins/Notifications')
+const PostModal = LazyLoad('../components/mobile/PostModal')
+const Lists = LazyLoad('../pages/Lists/Lists')
+const Bookmarks = LazyLoad('../pages/Bookmarks/Bookmarks')
 function App() {
 
   return (
@@ -22,10 +39,16 @@ function App() {
           <Route path='/log-in' element={<Login/>}/>
         </Route>
         {/* Private routes*/}
-        <Route index element={<Home/>}/>
-        <Route path='/profile' element={<Profile/>}/>
-        <Route path='/search' element={<Search/>}/>
-        <Route path='/notifications' element={<Notifications/>}/>
+        <Route element={<MainLayout/>}>
+          <Route index element={<Home/>}/>
+          <Route path='/profile' element={<Profile/>}/>
+          <Route path='/search' element={<Search/>}/>
+          <Route path='/notifications' element={<Notifications/>}/>
+          <Route path='/lists' element={<Lists/>}/>
+          <Route path='/bookmarks' element={<Bookmarks/>}/>
+          <Route path='/post' element={<PostModal/>}/>
+          <Route path='/soon' element={<Soon/>}/>
+        </Route>
       </Routes>
     </>
   )

@@ -5,7 +5,7 @@ import SearchBar from '../UI/SearchBar'
 function MobileTopBar({middleSection='home'}) {
   return (
     <header className='mobile-top-bar'>
-        <ProfilePic/>
+        <ProfilePic />
         {middleSection == 'home'? <Twitter size={30}/>
         : middleSection == 'search'? <SearchBar/>
         : middleSection == 'notifacation'? <h3>Notifaction</h3>

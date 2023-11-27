@@ -12,6 +12,7 @@ import MobileBottomBar from '../../components/mobile/MobileBottomBar'
 function Home() {
   const TABS = ['Recent', 'Following']
   const [selectedTab, setSelectedTab] = useState('Recent')
+  
   return (
     <>
       <MobileTopBar/>
@@ -26,7 +27,6 @@ function Home() {
         <PostCard/>
         <PostCard/>
       </div>
-      <MobileBottomBar/>
     </>
   )
 }

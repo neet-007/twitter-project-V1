@@ -21,7 +21,6 @@ function Profile() {
         <PostCard/>
         <PostCard/>
         <PostCard/>
-        <MobileBottomBar/>
     </>
   )
 }

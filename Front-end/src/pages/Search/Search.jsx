@@ -10,21 +10,20 @@ function Search() {
   const [SelectedTab, setSelectedTab] = useState('For you')
   return (
     <section>
-        <MobileTopBar/>
+        <MobileTopBar middleSection='search'/>
         <SwitchButtonContainer>
             {SEARCH_TABS.map(tab => {
-               return <SwitchButton Name={tab} Selected={SelectedTab} setSelectedTab={() => setSelectedTab(tab)}/>
+               return <SwitchButton key={tab} Name={tab} Selected={SelectedTab} setSelectedTab={() => setSelectedTab(tab)}/>
             })}
         </SwitchButtonContainer>
         <ul className='moblie-side-nav-ul'>
-            <li><NavBarItem item={'Trending'} className={'p-2'}/></li>
-            <li><NavBarItem item={'Trending'} className={'p-2'}/></li>
-            <li><NavBarItem item={'Trending'} className={'p-2'}/></li>
-            <li><NavBarItem item={'Trending'} className={'p-2'}/></li>
-            <li><NavBarItem item={'Trending'} className={'p-2'}/></li>
-            <li><NavBarItem item={'Trending'} className={'p-2'}/></li>
+            <NavBarItem item={'Trending'} className={'p-2'}/>
+            <NavBarItem item={'Trending'} className={'p-2'}/>
+            <NavBarItem item={'Trending'} className={'p-2'}/>
+            <NavBarItem item={'Trending'} className={'p-2'}/>
+            <NavBarItem item={'Trending'} className={'p-2'}/>
+            <NavBarItem item={'Trending'} className={'p-2'}/>
         </ul>
-        <MobileBottomBar/>
     </section>
   )
 }
