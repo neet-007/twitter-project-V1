@@ -4,10 +4,10 @@ import ProfileCard from '../ProfileCard'
 import { PlusCircle } from 'react-bootstrap-icons'
 import NavBarItem from '../UI/NavBarItem'
 import { SIDE_NAV_ROUTS } from '../../Constants/Constatns'
-function MobileSideNav() {
+function MobileSideNav({mobileSideNavON}) {
   //const SIDE_NAV_ITEMS = ['Person','Twitter','Lists','Bookmarks','Communities','Monetization']
   return (
-    <div className='mobile-side-nav'>
+    <div className={`mobile-side-nav ${mobileSideNavON ?'show':'hide'}`}>
         <div className="mobile-side-nav-first-row">
             <ProfilePic/>
             <PlusCircle/>

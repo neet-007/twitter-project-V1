@@ -18,6 +18,7 @@ import MainLayout from './pages/MainLayout'
 import Soon from './pages/Soon'
 //import PostModal from './components/mobile/PostModal'
 import { LazyLoad } from './utils/LazyLoad'
+import { useState } from 'react'
 
 const SignUp = LazyLoad('../pages/AuthSection/SignUp/SignUp')
 const Login = LazyLoad('../pages/AuthSection/LogIn/LogIN')
@@ -30,8 +31,10 @@ const Lists = LazyLoad('../pages/Lists/Lists')
 const Bookmarks = LazyLoad('../pages/Bookmarks/Bookmarks')
 function App() {
 
+  const [mobileSideNavON, setMobileSideNavOn] = useState(false)
   return (
     <>
+      <MobileSideNav mobileSideNavON={mobileSideNavON}/>
       <Routes>
         {/* Public routes*/}
         <Route element={<AuthLayout/>}>
@@ -40,7 +43,7 @@ function App() {
         </Route>
         {/* Private routes*/}
         <Route element={<MainLayout/>}>
-          <Route index element={<Home/>}/>
+          <Route index element={<Home mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/search' element={<Search/>}/>
           <Route path='/notifications' element={<Notifications/>}/>

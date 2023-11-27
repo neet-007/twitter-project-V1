@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@700&family=Roboto:wght@300&display=swap" rel="stylesheet');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@700&family=Roboto:wght@300&display=swap');
 *,*::after,*::before{
     box-sizing: border-box;
 }
@@ -7,6 +7,12 @@
     --switch-button-padding: 0.75rem;
     --profile-pic-width: 2rem;
     --switch-button-font-size: 1rem;
+}
+.show{
+    display: block;
+}
+.hide{
+    display: none;
 }
 .p-s{
     padding: 0 0.5rem;
@@ -20,8 +26,12 @@
 body{
     margin: 0;
     padding: 0;
+    line-height: 1.5;
     font-family: 'Cabin', sans-serif;
     font-family: 'Roboto', sans-serif;
+}
+h1, h2, h3{
+    line-height: 1.1;
 }
 .nav-bar-item{
     display: flex;

@@ -9,13 +9,13 @@ import PostModal from '../../components/mobile/PostModal'
 import MobilePostButton from '../../components/mobile/MobilePostButton'
 import MobileTopBar from '../../components/mobile/MobileTopBar'
 import MobileBottomBar from '../../components/mobile/MobileBottomBar'
-function Home() {
+function Home({mobileSideNavON, setMobileSideNavOn}) {
   const TABS = ['Recent', 'Following']
   const [selectedTab, setSelectedTab] = useState('Recent')
-  
+
   return (
     <>
-      <MobileTopBar/>
+      <MobileTopBar mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>
       <SwitchButtonContainer>
         {TABS.map(tab => {
           return <SwitchButton key={tab} Name={tab} Selected={selectedTab}
