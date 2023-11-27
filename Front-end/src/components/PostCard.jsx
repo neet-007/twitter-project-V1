@@ -1,11 +1,12 @@
 import React from 'react'
 import ProfilePic from './ProfilePic'
 import ProfileCard from './ProfileCard'
+import { useNavigate } from 'react-router-dom'
 function PostCard() {
-  
+  const navigate = useNavigate()
   return (
     <article className='post-card-container'>
-        <ProfilePic isHome={true} />
+        <ProfilePic isHome={true} postCardToProfile={navigate}/>
         <ProfileCard className={'profile-card'}/>
         <div className='post-content'>
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nobis itaque possimus quidem illo quis sapiente, consequuntur et amet vitae modi natus iste suscipit, iusto adipisci praesentium consequatur voluptatem vel accusamus nostrum beatae id labore. Aspernatur, praesentium eum qui, ipsam corrupti dolorum cupiditate quod iste sequi facilis accusamus non repudiandae fugiat!

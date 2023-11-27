@@ -14,7 +14,7 @@ function Profile() {
         <ProfileInfo/>
         <SwitchButtonContainer>
           {PROFILE_TABS.map(tab => {
-            return <SwitchButton Name={tab} Selected={selectedTab} setSelectedTab={() => setSelectedTab(tab)}/>
+            return <SwitchButton key={tab} Name={tab} Selected={selectedTab} setSelectedTab={() => setSelectedTab(tab)}/>
           })}
         </SwitchButtonContainer>
         <PostCard/>
