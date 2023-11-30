@@ -4,10 +4,18 @@ import SwitchButton from '../../components/UI/SwitchButton'
 import NavBarItem from '../../components/UI/NavBarItem'
 import MobileTopBar from '../../components/mobile/MobileTopBar'
 import MobileBottomBar from '../../components/mobile/MobileBottomBar'
-
+import {getPosts, newPost, showUsers} from '../../data/api'
 function Search() {
   const SEARCH_TABS = ['For you', 'Trending', 'News', 'Sports', 'Entertaiment']
   const [SelectedTab, setSelectedTab] = useState('For you')
+
+  useEffect(()=>{
+    getPosts().then(data=> {
+      console.log(data)
+      newPost()
+    })
+  },[])
+
   return (
     <section>
         <MobileTopBar middleSection='search'/>

@@ -2,17 +2,22 @@ import React from 'react'
 import ProfilePic from './ProfilePic'
 import ProfileCard from './ProfileCard'
 import { useNavigate } from 'react-router-dom'
-function PostCard() {
+import { Bookmark, Chat, Heart } from 'react-bootstrap-icons'
+function PostCard({postContent, username, mention, likes}) {
   const navigate = useNavigate()
   return (
     <article className='post-card-container'>
         <ProfilePic isHome={true} postCardToProfile={navigate}/>
-        <ProfileCard className={'profile-card'}/>
+        <ProfileCard className={'profile-card'} username={username} mention={mention}/>
         <div className='post-content'>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nobis itaque possimus quidem illo quis sapiente, consequuntur et amet vitae modi natus iste suscipit, iusto adipisci praesentium consequatur voluptatem vel accusamus nostrum beatae id labore. Aspernatur, praesentium eum qui, ipsam corrupti dolorum cupiditate quod iste sequi facilis accusamus non repudiandae fugiat!
+            {postContent}
         </div>
         <img className={'post-img'} src="src/assets/profile-pic.png" alt="" />
-        <div className='post-interact'></div>
+        <div className='post-interact'>
+          <span><Heart size={20}/> <span>{likes}</span></span>
+          <span><Chat size={20}/> <span>0</span></span>
+          <span><Bookmark size={20}/> <span>0</span></span>
+        </div>
     </article>
   )
 }

@@ -34,7 +34,7 @@ function App() {
   const [mobileSideNavON, setMobileSideNavOn] = useState(false)
   return (
     <>
-      <MobileSideNav mobileSideNavON={mobileSideNavON}/>
+      <MobileSideNav mobileSideNavON={mobileSideNavON} setMobileSideNavON={setMobileSideNavOn}/>
       <Routes>
         {/* Public routes*/}
         <Route element={<AuthLayout/>}>
@@ -42,7 +42,7 @@ function App() {
           <Route path='/log-in' element={<Login/>}/>
         </Route>
         {/* Private routes*/}
-        <Route element={<MainLayout/>}>
+        <Route element={<MainLayout mobileSideNavON={mobileSideNavON} setMobileNavOn={setMobileSideNavOn}/>}>
           <Route index element={<Home mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/search' element={<Search/>}/>

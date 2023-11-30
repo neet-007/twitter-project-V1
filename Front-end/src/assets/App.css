@@ -5,14 +5,15 @@
 :root{
     --nav-bar-padding: 0.25rem;
     --switch-button-padding: 0.75rem;
-    --profile-pic-width: 2rem;
+    --profile-pic-width: 2.5rem;
     --switch-button-font-size: 1rem;
 }
-.show{
-    display: block;
+.idea{
+    height: 100%;
 }
-.hide{
-    display: none;
+.opacity{
+    opacity: 0.4;
+    transition: all 400ms ease-in-out;
 }
 .p-s{
     padding: 0 0.5rem;
@@ -33,6 +34,10 @@ body{
 h1, h2, h3{
     line-height: 1.1;
 }
+a{
+    text-decoration: none;
+    color: black;
+}
 .nav-bar-item{
     display: flex;
     align-items: center;
@@ -48,6 +53,9 @@ h1, h2, h3{
 }
 .side-nav-bar-ul, .moblie-side-nav-ul{
     list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     padding: 0;
 }
 .side-nav-bar-ul > li, .nav-bar-item{
@@ -55,6 +63,17 @@ h1, h2, h3{
 }
 .mobile-side-nav{
     width: 100%;
+    left: -100%;
+    position: absolute;
+    padding: 1rem;
+    background-color: white;
+    width: 70%;
+    height: 100%;
+    z-index: 1;
+    transition: left 400ms ease-in-out;
+}
+.show{
+    left: 0;
 }
 .mobile-side-nav-first-row{
     display: flex;
@@ -287,6 +306,14 @@ h1, h2, h3{
 }
 .post-interact{
     grid-area: post-interact;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.1rem;
+}
+.post-interact > *{
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
 }
 .home-container{
     display: flex;

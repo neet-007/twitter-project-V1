@@ -3,14 +3,17 @@ import { Outlet } from 'react-router-dom'
 import MobileTopBar from '../components/mobile/MobileTopBar'
 import MobileSideNav from '../components/mobile/MobileSideNav'
 import MobileBottomBar from '../components/mobile/MobileBottomBar'
-function MainLayout() {
+function MainLayout({mobileSideNavON, setMobileNavOn}) {
   return (
     <div>
         {/*<MobileTopBar/>*/}
-        {/*<MobileSideNav/>*/}
+        {/*<MobileSideNav mobileSideNavON={mobileSideNavON} setMobileNavON={setMobileNavOn}/>*/}
         <section>
             <Suspense fallback={<h1>Loading...</h1>}>
-                <Outlet/>
+              <div className={`idea ${mobileSideNavON ? 'opacity':''}`}
+               onClick={()=>{mobileSideNavON==true && setMobileNavOn(!mobileSideNavON)}}>
+              <Outlet/>
+              </div>
             </Suspense>
         </section>
         <MobileBottomBar/>

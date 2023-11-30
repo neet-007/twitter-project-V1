@@ -2,12 +2,12 @@ import React from 'react'
 import { PatchCheck, ThreeDots, Briefcase, GeoAlt } from 'react-bootstrap-icons'
 import IconHoverEffect from './UI/IconHoverEffect'
 
-function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTopBar=false, profilePageTopBar=false ,profileInfo=false}) {
+function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTopBar=false, profilePageTopBar=false ,profileInfo=false, username, mention}) {
   return (
     <div className={className}>
-        <span>Username {isVerified ? <PatchCheck/>:''}</span>
+        <span>{username} {isVerified ? <PatchCheck/>:''}</span>
         {!profilePageTopBar ?
-          <span className='profile-card-mention'>@Username</span>:''
+          <span className='profile-card-mention'>{mention}</span>:''
         }
         {
             !isMobileSideNav && !pageTopBar && !profileInfo ? <><span>Nov14</span>

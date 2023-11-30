@@ -1,11 +1,74 @@
 from django.shortcuts import render
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
+from rest_framework.views import APIView
 from .models import User, Post, Comment, Like, Follow
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .serializers import UserSerializers, PostSerializers, CommentSerializers, LikeSerializers, FollowSerializers
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+from django.contrib.auth import authenticate, login, logout
+from django.utils.decorators import method_decorator
 # Create your views here.
 
+@method_decorator(csrf_protect, name='dispatch')
+class signup_view(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post (self, requset, format=None):
+        data = self.request.data
+
+        username = data['username']
+        password = data['password']
+        re_password = data['re_password']
+
+        if password == re_password:
+            if User.objects.filter(username=username).exists():
+                return Response({'error':'user already exixst'}, status.HTTP_400_BAD_REQUEST)
+
+            if len(password) < 8:
+                    return Response({'error':'password must be 8 charechtars long'}, status.HTTP_400_BAD_REQUEST)
+
+            new_user = User.objects.create_user(username=username, password=password)
+            new_user.save()
+
+            return Response({'message':'user craeted'}, status.HTTP_201_CREATED)
+
+        else:
+            return Response({'error':'password and repassword must be the same'}, status.HTTP_400_BAD_REQUEST)
+
+@method_decorator(csrf_protect, name='dispatch')
+class login_view(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, requset, format=None):
+        data = self.request.data
+
+        username = data['username']
+        password = data['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(requset, user)
+            return Response({'message':'login succseful usernmae' + ' ' + username}, status.HTTP_200_OK)
+        else:
+            return Response({'error':'authintectaion failed'}, status.HTTP_400_BAD_REQUEST)
+
+
+class logout_view(APIView):
+    def post(self, requset, format=None):
+        try:
+            logout(requset)
+            return Response({'message':'logout sucsseful'}, status.HTTP_200_OK)
+        except:
+            return Response({'error':'something went wrong'}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class getCSRFToken(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, format=None):
+        return Response({'message':'csrf token generated'})
 class get_post_feed(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializers
@@ -22,8 +85,9 @@ class make_post(generics.CreateAPIView):
     serializer_class = PostSerializers
 
     def post(self, request, *args, **kwargs):
+        username = request.POST.get('user')
         post = Post.objects.create(
-            user_post = request.user,
+            user_post = get_object_or_404(User, username=username),
             post_content = request.POST.get('post_content'),
             post_img = request.POST.get('post_img'),
             likes = 0
