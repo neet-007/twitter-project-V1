@@ -12,6 +12,7 @@ function PostModal({isComment='aa'}) {
     post_content:'',
     post_image:''
   })
+  
   const navigate = useNavigate()
   return (
     <article className='post-modal-container'>
