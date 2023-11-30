@@ -1,24 +1,18 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import SwitchButtonContainer from '../../components/UI/SwitchButtonContainer'
 import SwitchButton from '../../components/UI/SwitchButton'
 import NavBarItem from '../../components/UI/NavBarItem'
 import MobileTopBar from '../../components/mobile/MobileTopBar'
 import MobileBottomBar from '../../components/mobile/MobileBottomBar'
-import {getPosts, newPost, showUsers} from '../../data/api'
-function Search() {
+import {getPosts, logOut, newPost, showUsers} from '../../data/api'
+function Search({mobileSideNavON ,setMobileSideNavOn}) {
   const SEARCH_TABS = ['For you', 'Trending', 'News', 'Sports', 'Entertaiment']
   const [SelectedTab, setSelectedTab] = useState('For you')
 
-  useEffect(()=>{
-    getPosts().then(data=> {
-      console.log(data)
-      newPost()
-    })
-  },[])
 
   return (
     <section>
-        <MobileTopBar middleSection='search'/>
+        <MobileTopBar middleSection='search' mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>
         <SwitchButtonContainer>
             {SEARCH_TABS.map(tab => {
                return <SwitchButton key={tab} Name={tab} Selected={SelectedTab} setSelectedTab={() => setSelectedTab(tab)}/>

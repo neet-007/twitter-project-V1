@@ -23,4 +23,8 @@ export const SIDE_NAV_ROUTS = [
         item: 'Monetization',
         route: '/soon'
     },
+    {
+        item: 'Logout',
+        route: '/'
+    }
 ]

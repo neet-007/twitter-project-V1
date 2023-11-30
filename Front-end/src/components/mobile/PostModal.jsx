@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PostForm from '../PostForm'
-import { ArrowLeft } from 'react-bootstrap-icons'
+import { ArrowLeft, Tree } from 'react-bootstrap-icons'
 import TwitterButton from '../UI/TwitterButton'
 import { useNavigate } from 'react-router-dom'
-function PostModal() {
+import PostCard from '../PostCard'
+
+function PostModal({isComment='aa'}) {
+
+  const [comment_detatils, setCommentDetails] = useState({
+    post_id:'',
+    post_content:'',
+    post_image:''
+  })
   const navigate = useNavigate()
   return (
     <article className='post-modal-container'>
@@ -11,9 +19,10 @@ function PostModal() {
             <ArrowLeft size={20} onClick={()=>{navigate(-1)}}/>
             <div className="post-modal-buttons">
                 <TwitterButton Name='Draft' color={'gray'}/>
-                <TwitterButton Name='Post' color={'blue'}/>
+                <TwitterButton Name='Post' color={'blue'} type={'submit'} form={'post-form'}/>
             </div>
         </div>
+        {isComment && <PostCard />}
         <PostForm/>
     </article>
   )

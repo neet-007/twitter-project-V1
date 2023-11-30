@@ -28,7 +28,7 @@ const  CSRFToken = () => {
   useEffect(()=>{
     const fetchData = async () => {
         try {
-           const data = await axios.get('http://127.0.0.1:8000/twitter/csrf-token', {withCredentials:true})
+           const data = await axios.get('/twitter/csrf-token', {withCredentials:true})
            console.log(data)
         } catch (error) {
             console.log(error)
@@ -40,7 +40,7 @@ const  CSRFToken = () => {
     console.log(csrfToken)
   },[])
   return (
-    <input type="hiddin" name='csrfmiddlewaretoken' value={csrfToken} readOnly/>
+    <input type="hidden" name='csrfmiddlewaretoken' value={csrfToken} readOnly/>
   )
 }
 

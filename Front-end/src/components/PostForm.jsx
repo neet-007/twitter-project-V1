@@ -1,6 +1,9 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import ProfilePic from './ProfilePic'
 import {Image, FiletypeGif, Calendar, GeoAlt} from 'react-bootstrap-icons'
+import CSRFToken from '../data/CSRFToken'
+import { newPost } from '../data/api'
+
 function updateTextareaSize(textarea){
     if (textarea == null) return
 
@@ -9,6 +12,12 @@ function updateTextareaSize(textarea){
 }
 function PostForm() {
 
+    const onSubmit = (e, inputValue) => {
+        e.preventDefault()
+
+        newPost(inputValue, null)
+        console.log('posted')
+    }
     const [inputValue, setInputValue] = useState()
     const textareaRef = useRef()
 
@@ -21,7 +30,8 @@ function PostForm() {
         updateTextareaSize(textareaRef.current)
     },[inputValue])
   return (
-    <form>
+    <form onSubmit={(e)=>{onSubmit(e, inputValue)}} id='post-form'>
+        <CSRFToken/>
         <div className="post-form-pic-textarea">
             <ProfilePic/>
             <textarea className='form-textarea' placeholder="What's happining?"

@@ -14,16 +14,21 @@ import CSRFToken from '../../data/CSRFToken'
 
 
 
+
 function Home({mobileSideNavON, setMobileSideNavOn}) {
   const TABS = ['Recent', 'Following']
   const [selectedTab, setSelectedTab] = useState('Recent')
   const [posts, setPosts] = useState([])
 
+  useEffect(()=>{
+    const fetchData = async ()=>{
+       let data = await getPosts()
+       setPosts(data.data)
+    }
+    fetchData()
+  },[])
   return (
     <>
-      <form action="">
-      <CSRFToken/>
-      </form>
       <MobileTopBar mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>
       <SwitchButtonContainer>
         {TABS.map(tab => {
@@ -32,11 +37,12 @@ function Home({mobileSideNavON, setMobileSideNavOn}) {
         })}
       </SwitchButtonContainer>
       <div className="home-container">
-        {posts.map(post => {
-         return <PostCard key={post.id} postContent={post.post_content}
+        {/*posts.map(post => {
+         return <PostCard key={post.id} postId={post.id} postContent={post.post_content}
           username={post.user_post.username} mention={post.user_post.mention}
           likes={post.likes}/>
-        })}
+        })*/}
+
       </div>
     </>
   )

@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SwitchButtonContainer from '../../components/UI/SwitchButtonContainer'
 import SwitchButton from '../../components/UI/SwitchButton'
 import NavBarItem from '../../components/UI/NavBarItem'
 import MobileTopBar from '../../components/mobile/MobileTopBar'
+import { logOut } from '../../data/api'
 
-function Notifications() {
+function Notifications({mobileSideNavON ,setMobileSideNavOn}) {
   const NOTIFICATIONS_TABS = ['All', 'Verified', 'Mentions']
   const [SelectedTab, setSelectedTab] = useState('All')
+
   return (
     <div>
-        <MobileTopBar middleSection='notifacation'/>
+        <MobileTopBar middleSection='notifacation' mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>
         <SwitchButtonContainer>
             {NOTIFICATIONS_TABS.map(tab => {
                 return <SwitchButton key={tab} Name={tab} Selected={SelectedTab} setSelectedTab={()=>{setSelectedTab(tab)}}/>

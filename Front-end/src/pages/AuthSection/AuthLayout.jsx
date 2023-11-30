@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Twitter } from 'react-bootstrap-icons'
 import { Outlet, Navigate } from 'react-router-dom'
 function AuthLayout() {
@@ -9,8 +9,10 @@ function AuthLayout() {
         <Navigate to='/'/>:(
             <>
                 <section className='auth-layout'>
+                  <Suspense fallback={<h1>Loading</h1>}>
                     <Twitter size={60}/>
                     <Outlet/>
+                  </Suspense>
                 </section>
             </>
         )}

@@ -5,40 +5,112 @@ const api = axios.create({
   }
 )
 
+const register = async (username, password, re_password) =>{
+  const config = {
+    headers: {
+      'Accept':'application/json',
+      'Content-type':'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken')
+    }
+
+  }
+  try{
+    console.log(Cookies.get('csrftoken'))
+    let data = await axios.post('/twitter/signup', {'username':username, 'password':password, 're_password':re_password}, config)
+    console.log(data)
+  }catch(e){
+      console.log(e)
+  }
+}
+
+const logIn = async (username, password) =>{
+  const config = {
+    headers: {
+      'Accept':'application/json',
+      'Content-type':'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken')
+    }
+
+  }
+  try{
+    console.log(Cookies.get('csrftoken'))
+    let data = await axios.post('/twitter/login', {'username':username, 'password':password}, config)
+    console.log(data)
+  }catch(e){
+      console.log(e)
+  }
+}
+
+const logOut = async () => {
+const config = {
+  headers: {
+    'Accept':'application/json',
+    'Content-type':'application/json',
+    'X-CSRFToken': Cookies.get('csrftoken')
+  }
+
+}
+try{
+  console.log(Cookies.get('csrftoken'))
+  let data = await axios.post('/twitter/logout', {}, config)
+  console.log(data)
+}catch(e){
+    console.log(e)
+}
+}
+
 const getPosts = async () =>{
     try{
-      let data = await api.get('/post-feed')
-      return (data.data)
+        let data = await axios.get('/twitter/post-feed')
+        return data
     }catch(e){
       console.log(e)
     }
-  }
-//export default getPosts
+}
 
 const showUsers = async () =>{
   try{
-    let data = await api.get('/show-users')
+    let data = await axios.get('/twitter/show-users')
     console.log(data.data)
   }catch(e){
     console.log(e)
   }
 }
 
-const newPost = async () =>{
-    const config = {
-      headers: {
-        'Accept':'application/json',
-        'Content-type':'application/json',
-        'X-CSRFToken': Cookies.get('csrftoken')
-      }
+const newPost = async (post_content, img) =>{
+  const config = {
+    headers: {
+      'Accept':'application/json',
+      'Content-type':'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken')
+    }
 
-    }
-    try{
-      console.log(Cookies.get('csrftoken'))
-      let data = await api.post('/login', {'username':'user1', 'password':'12345678'}, config)
-      console.log(data)
-    }catch(e){
-        console.log(e)
-    }
+  }
+  try{
+    console.log(post_content)
+    let data = await axios.post('/twitter/make-post', {'post_content':post_content, 'post_img':img}, config)
+    console.log(data)
+  }catch(e){
+      console.log(e)
+  }
 }
-export {getPosts, newPost, showUsers}
+
+const addLike = async (post_id) =>{
+  const config = {
+    headers: {
+      'Accept':'application/json',
+      'Content-type':'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken')
+    }
+
+  }
+  try{
+    console.log(post_id)
+    let data = await axios.post(`/twitter/add-like/${post_id}`, {}, config)
+    console.log(data)
+  }catch(e){
+      console.log(e)
+  }
+}
+
+export {register, logIn, logOut, showUsers, getPosts, newPost, addLike}

@@ -44,13 +44,13 @@ function App() {
         {/* Private routes*/}
         <Route element={<MainLayout mobileSideNavON={mobileSideNavON} setMobileNavOn={setMobileSideNavOn}/>}>
           <Route index element={<Home mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
-          <Route path='/profile' element={<Profile/>}/>
-          <Route path='/search' element={<Search/>}/>
-          <Route path='/notifications' element={<Notifications/>}/>
-          <Route path='/lists' element={<Lists/>}/>
-          <Route path='/bookmarks' element={<Bookmarks/>}/>
-          <Route path='/post' element={<PostModal/>}/>
-          <Route path='/soon' element={<Soon/>}/>
+          <Route path='/profile' element={<Profile mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
+          <Route path='/search' element={<Search mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
+          <Route path='/notifications' element={<Notifications mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
+          <Route path='/lists' element={<Lists mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
+          <Route path='/bookmarks' element={<Bookmarks mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
+          <Route path='/post' element={<PostModal mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
+          <Route path='/soon' element={<Soon mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
         </Route>
       </Routes>
     </>
