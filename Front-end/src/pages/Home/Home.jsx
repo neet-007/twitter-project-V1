@@ -11,22 +11,33 @@ import MobileTopBar from '../../components/mobile/MobileTopBar'
 import MobileBottomBar from '../../components/mobile/MobileBottomBar'
 import {getPosts, newPost, showUsers} from '../../data/api'
 import CSRFToken from '../../data/CSRFToken'
-
+import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
+import { useGetPosts } from '../../data/queriesAndMutations'
 
 
 
 function Home({mobileSideNavON, setMobileSideNavOn}) {
   const TABS = ['Recent', 'Following']
   const [selectedTab, setSelectedTab] = useState('Recent')
-  const [posts, setPosts] = useState([])
+  //const [posts, setPosts] = useState([])
 
-  useEffect(()=>{
+  const queryClient = useQueryClient()
+  const {data, isLoading, isError} = useGetPosts()
+  /*const postQuery = useQuery({
+    queryKey: ['posts'],
+    queryFn: () => getPosts()
+  })*/
+
+  if (isLoading) return (<h1>... isLoading</h1>)
+  if (isError) return (<pre>{JSON.stringify(postQuery.error)}</pre>)
+  console.log(data)
+  /*useEffect(()=>{
     const fetchData = async ()=>{
        let data = await getPosts()
        setPosts(data.data)
     }
     fetchData()
-  },[])
+  },[])*/
   return (
     <>
       <MobileTopBar mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>
@@ -42,6 +53,11 @@ function Home({mobileSideNavON, setMobileSideNavOn}) {
           username={post.user_post.username} mention={post.user_post.mention}
           likes={post.likes}/>
         })*/}
+        {data.map(post => (
+          <PostCard key={post.id} postId={post.id} postContent={post.post_content}
+          username={post.user_post.username} mention={post.user_post.mention}
+          likes={post.likes} />
+        ))}
 
       </div>
     </>

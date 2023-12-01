@@ -1,10 +1,13 @@
 import React from 'react'
 import { Bookmark, Cash, DoorOpen, JournalText, People, Person, Twitter } from 'react-bootstrap-icons'
 import { NavLink, useLocation } from 'react-router-dom'
-import { logOut } from '../../data/api'
+//import { logOut } from '../../data/api'
+import { useLogOut } from '../../data/queriesAndMutations';
 
 function NavBarItem({ item, route, className }) {
   const { pathname } = useLocation();
+  const {mutateAsync:logOut, isError} = useLogOut()
+
   const isActive = pathname === route; // Check if the current route matches the NavBarItem route
   const onClick = item == 'Logout' ? ()=>{logOut()}:''
   // Map items to corresponding icons

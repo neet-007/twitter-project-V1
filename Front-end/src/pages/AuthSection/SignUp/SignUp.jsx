@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import TwitterButton from '../../../components/UI/TwitterButton'
-import { register } from '../../../data/api'
+//import { register } from '../../../data/api'
 import CSRFToken from '../../../data/CSRFToken'
+import { useLogIn, useRegister } from '../../../data/queriesAndMutations'
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -11,10 +12,12 @@ function SignUp() {
     re_password:''
   })
 
-  const navigate = useNavigate()
+  //const navigate = useNavigate()
 
   const {username, password, re_password} = formData
-
+  const {mutateAsync:register, isError} = useRegister()
+  const {mutateAsync:logIn, isErrorr} = useLogIn()
+  const navigate = useNavigate()
   const onChange = (e) => setFormData({...formData, [e.target.name]:e.target.value})
 
   const onSubmit = (e) => {
@@ -22,8 +25,12 @@ function SignUp() {
     console.log(password)
     console.log(re_password)
     if (password === re_password){
-      register(username, password, re_password)
-      navigate ('../log-in')
+      register({username, password, re_password}
+        ).then(
+        (res) => {logIn({username, password})}
+        ).then(
+        (res) => navigate('/')
+        )
     }
   }
   return (

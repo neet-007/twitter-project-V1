@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import path, re_path
+from django.views.generic import TemplateView
 from . import views
 
 urlpatterns = [
@@ -18,3 +19,5 @@ urlpatterns = [
     path('follow/<int:pk>', views.Follow_view.as_view(), name='follow'),
     path('unfollow/<int:pk>', views.Unfollow.as_view(), name='unfollow')
 ]
+
+urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]

@@ -5,7 +5,7 @@ const api = axios.create({
   }
 )
 
-const register = async (username, password, re_password) =>{
+const register = async ({username, password, re_password}) =>{
   const config = {
     headers: {
       'Accept':'application/json',
@@ -16,14 +16,14 @@ const register = async (username, password, re_password) =>{
   }
   try{
     console.log(Cookies.get('csrftoken'))
-    let data = await axios.post('/twitter/signup', {'username':username, 'password':password, 're_password':re_password}, config)
+    let data = await axios.post('/twitter/signup', {username, password, re_password}, config)
     console.log(data)
   }catch(e){
       console.log(e)
   }
 }
 
-const logIn = async (username, password) =>{
+const logIn = async ({username, password}) =>{
   const config = {
     headers: {
       'Accept':'application/json',
@@ -34,7 +34,7 @@ const logIn = async (username, password) =>{
   }
   try{
     console.log(Cookies.get('csrftoken'))
-    let data = await axios.post('/twitter/login', {'username':username, 'password':password}, config)
+    let data = await axios.post('/twitter/login', {username, password}, config)
     console.log(data)
   }catch(e){
       console.log(e)
@@ -59,14 +59,14 @@ try{
 }
 }
 
-const getPosts = async () =>{
-    try{
-        let data = await axios.get('/twitter/post-feed')
-        return data
-    }catch(e){
-      console.log(e)
-    }
-}
+const getPosts = async () => {
+  try {
+    const response = await axios.get('/twitter/post-feed');
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
 const showUsers = async () =>{
   try{
@@ -77,7 +77,7 @@ const showUsers = async () =>{
   }
 }
 
-const newPost = async (post_content, img) =>{
+const newPost = async ({post_content, post_img}) =>{
   const config = {
     headers: {
       'Accept':'application/json',
@@ -87,8 +87,8 @@ const newPost = async (post_content, img) =>{
 
   }
   try{
-    console.log(post_content)
-    let data = await axios.post('/twitter/make-post', {'post_content':post_content, 'post_img':img}, config)
+    console.log({post_content})
+    let data = await axios.post('/twitter/make-post', {post_content, post_img}, config)
     console.log(data)
   }catch(e){
       console.log(e)

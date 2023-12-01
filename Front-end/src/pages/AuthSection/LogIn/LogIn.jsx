@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import TwitterButton from '../../../components/UI/TwitterButton'
-import { logIn } from '../../../data/api'
+//import { logIn } from '../../../data/api'
 import CSRFToken from '../../../data/CSRFToken'
+import { useLogIn } from '../../../data/queriesAndMutations'
 function LogIn() {
   const [formData, setFormData] = useState({
     username:'',
@@ -11,13 +12,14 @@ function LogIn() {
 
   const navigate = useNavigate()
   const {username, password} = formData
+  const {mutateAsync:logIn, isError} = useLogIn()
 
   const onChange = e => setFormData({...formData, [e.target.name]:e.target.value})
 
   const onSubmit = (e) => {
     e.preventDefault()
 
-    logIn(username, password)
+    logIn({username, password})
     navigate('../')
   }
   return (
@@ -40,7 +42,7 @@ function LogIn() {
                value={password}
                onChange={(e)=>onChange(e)}/>
 
-        <TwitterButton Name='Sign Up' color={'black'} type={'submit'}/>
+        <TwitterButton Name='Log In' color={'black'} type={'submit'}/>
       </form>
       <p>
         don't have an account?

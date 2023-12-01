@@ -3,6 +3,8 @@ import ProfilePic from './ProfilePic'
 import {Image, FiletypeGif, Calendar, GeoAlt} from 'react-bootstrap-icons'
 import CSRFToken from '../data/CSRFToken'
 import { newPost } from '../data/api'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNewPost } from '../data/queriesAndMutations'
 
 function updateTextareaSize(textarea){
     if (textarea == null) return
@@ -11,13 +13,12 @@ function updateTextareaSize(textarea){
     textarea.style.height = `${textarea.scrollHeight}px`
 }
 function PostForm() {
-
-    const onSubmit = (e, inputValue) => {
-        e.preventDefault()
-
-        newPost(inputValue, null)
-        console.log('posted')
-    }
+    const queryClient = useQueryClient()
+    /*const newPostMutaion = useMutation({
+        mutationFn: newPost,
+        onSuccess: queryClient.invalidateQueries(['posts',{exact:true}])
+    })*/
+    const {mutateAsync: createNewPost} = useNewPost()
     const [inputValue, setInputValue] = useState()
     const textareaRef = useRef()
 
@@ -29,6 +30,17 @@ function PostForm() {
     useLayoutEffect(() => {
         updateTextareaSize(textareaRef.current)
     },[inputValue])
+
+    const onSubmit = (e, inputValue) => {
+        e.preventDefault()
+
+        //newPost({post_content:inputValue, post_img:null})
+        /*newPostMutaion.mutate({
+            post_content:inputValue, post_img:null
+        })*/
+        createNewPost({post_content:inputValue, post_img:null})
+        console.log('posted')
+    }
   return (
     <form onSubmit={(e)=>{onSubmit(e, inputValue)}} id='post-form'>
         <CSRFToken/>

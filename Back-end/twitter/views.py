@@ -36,6 +36,8 @@ class signup_view(APIView):
         else:
             return Response({'error':'password and repassword must be the same'}, status.HTTP_400_BAD_REQUEST)
 
+
+
 @method_decorator(csrf_protect, name='dispatch')
 class login_view(APIView):
     permission_classes = [permissions.AllowAny]
@@ -55,7 +57,10 @@ class login_view(APIView):
             return Response({'error':'authintectaion failed'}, status.HTTP_400_BAD_REQUEST)
 
 
+
+
 class logout_view(APIView):
+    permission_classes = [permissions.AllowAny]
     def post(self, requset, format=None):
         try:
             logout(requset)
@@ -63,15 +68,22 @@ class logout_view(APIView):
         except:
             return Response({'error':'something went wrong'}, status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class getCSRFToken(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, format=None):
         return Response({'message':'csrf token generated'})
+
+
+
 class get_post_feed(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializers
+
+
 
 class get_post_feed_by_user(generics.ListAPIView):
     serializer_class = PostSerializers
@@ -80,16 +92,17 @@ class get_post_feed_by_user(generics.ListAPIView):
         user = get_object_or_404(User, id=self.kwargs['pk'])
         return Post.objects.filter(user_post=user)
 
+
+
 class make_post(generics.CreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializers
 
     def post(self, request, *args, **kwargs):
-        username = request.POST.get('user')
         post = Post.objects.create(
-            user_post = get_object_or_404(User, username=username),
-            post_content = request.POST.get('post_content'),
-            post_img = request.POST.get('post_img'),
+            user_post = request.user,
+            post_content = self.request.data['post_content'],
+            post_img = self.request.data['post_img'],
             likes = 0
         )
 
@@ -99,6 +112,8 @@ class make_post(generics.CreateAPIView):
 
         serialized_items = PostSerializers(post)
         return Response(serialized_items.data, status.HTTP_201_CREATED)
+
+
 
 class comment(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
@@ -121,10 +136,11 @@ class comment(generics.ListCreateAPIView):
         return Response(serialized_items.data, status.HTTP_201_CREATED)
 
 
-class add_like(generics.UpdateAPIView):
+
+class add_like(generics.CreateAPIView):
     serializer_class = LikeSerializers
 
-    def put(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         post = get_object_or_404(Post, id=self.kwargs['pk'])
 
         if Like.objects.filter(user_like=request.user, post=post).exists():
@@ -145,13 +161,19 @@ class add_like(generics.UpdateAPIView):
         serialized_items = LikeSerializers(like)
         return Response(serialized_items.data, status.HTTP_201_CREATED)
 
+
+
 class edit_or_delete_post(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializers
 
+
+
 class show_users(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializers
+
+
 
 class Follow_view(generics.CreateAPIView):
     serializer_class = FollowSerializers
@@ -179,6 +201,8 @@ class Follow_view(generics.CreateAPIView):
         serialized_items = FollowSerializers(follow)
         return Response(serialized_items.data, status.HTTP_201_CREATED)
 
+
+
 class Unfollow(generics.DestroyAPIView):
     def destroy(self, request, *args, **kwargs):
         to_follow = get_object_or_404(User, id=self.kwargs['pk'])
@@ -194,11 +218,15 @@ class Unfollow(generics.DestroyAPIView):
         else:
             return Response({'message':'user is not followed'})
 
+
+
 class show_following(generics.ListAPIView):
     serializer_class = FollowSerializers
 
     def get_queryset(self):
         return Follow.objects.filter(following=self.kwargs['pk'])
+
+
 
 class show_followers(generics.ListAPIView):
     serializer_class = FollowSerializers
