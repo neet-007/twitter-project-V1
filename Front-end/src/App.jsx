@@ -27,6 +27,7 @@ const Profile = LazyLoad('../pages/Profile/Profile')
 const Search = LazyLoad('../pages/Search/Search')
 const Notifications = LazyLoad('../pages/Notificatoins/Notifications')
 const PostModal = LazyLoad('../components/mobile/PostModal')
+const ShowComments = LazyLoad('../pages/ShowComments/ShowComments')
 const Lists = LazyLoad('../pages/Lists/Lists')
 const Bookmarks = LazyLoad('../pages/Bookmarks/Bookmarks')
 function App() {
@@ -50,6 +51,7 @@ function App() {
           <Route path='/lists' element={<Lists mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
           <Route path='/bookmarks' element={<Bookmarks mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
           <Route path='/post' element={<PostModal mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
+          <Route path='/status' element={<ShowComments/>}/>
           <Route path='/soon' element={<Soon mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
         </Route>
       </Routes>

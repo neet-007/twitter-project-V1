@@ -59,6 +59,16 @@ try{
 }
 }
 
+const getCurrentUser = async () => {
+  try {
+    const response = await axios.get('/twitter/current-user');
+    console.log(response.data)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const getPosts = async () => {
   try {
     const response = await axios.get('/twitter/post-feed');
@@ -70,8 +80,8 @@ const getPosts = async () => {
 
 const showUsers = async () =>{
   try{
-    let data = await axios.get('/twitter/show-users')
-    console.log(data.data)
+    const response = await axios.get('/twitter/show-users')
+    return response.data
   }catch(e){
     console.log(e)
   }
@@ -113,4 +123,4 @@ const addLike = async (post_id) =>{
   }
 }
 
-export {register, logIn, logOut, showUsers, getPosts, newPost, addLike}
+export {register, logIn, logOut, getCurrentUser, showUsers, getPosts, newPost, addLike}

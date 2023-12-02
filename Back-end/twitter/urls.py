@@ -7,6 +7,7 @@ urlpatterns = [
     path('csrf-token', views.getCSRFToken.as_view(), name='csrf-token'),
     path('login', views.login_view.as_view(), name='login'),
     path('logout', views.logout_view.as_view(), name='logout'),
+    path('current-user', views.getCurrentUser.as_view(), name='current-user'),
     path('post-feed', views.get_post_feed.as_view(), name='post-feed'),
     path('post-feed-by-user/<int:pk>', views.get_post_feed_by_user.as_view(), name='post-feed-by-user'),
     path('make-post', views.make_post.as_view(), name='make-post'),

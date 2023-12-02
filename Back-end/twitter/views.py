@@ -78,6 +78,11 @@ class getCSRFToken(APIView):
         return Response({'message':'csrf token generated'})
 
 
+class getCurrentUser(APIView):
+    def get (self, request, format=None):
+        serialized_user = UserSerializers(self.request.user)
+        return Response(serialized_user.data, status.HTTP_200_OK)
+
 
 class get_post_feed(generics.ListAPIView):
     queryset = Post.objects.all()

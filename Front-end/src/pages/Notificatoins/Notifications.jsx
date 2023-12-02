@@ -3,6 +3,7 @@ import SwitchButtonContainer from '../../components/UI/SwitchButtonContainer'
 import SwitchButton from '../../components/UI/SwitchButton'
 import NavBarItem from '../../components/UI/NavBarItem'
 import MobileTopBar from '../../components/mobile/MobileTopBar'
+import {getPosts, newPost, showUsers, getCurrentUser} from '../../data/api'
 import { logOut } from '../../data/api'
 
 function Notifications({mobileSideNavON ,setMobileSideNavOn}) {

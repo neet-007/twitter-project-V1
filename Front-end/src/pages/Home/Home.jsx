@@ -9,7 +9,7 @@ import PostModal from '../../components/mobile/PostModal'
 import MobilePostButton from '../../components/mobile/MobilePostButton'
 import MobileTopBar from '../../components/mobile/MobileTopBar'
 import MobileBottomBar from '../../components/mobile/MobileBottomBar'
-import {getPosts, newPost, showUsers} from '../../data/api'
+import {getPosts, newPost, showUsers, getCurrentUser} from '../../data/api'
 import CSRFToken from '../../data/CSRFToken'
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
 import { useGetPosts } from '../../data/queriesAndMutations'
@@ -38,6 +38,7 @@ function Home({mobileSideNavON, setMobileSideNavOn}) {
     }
     fetchData()
   },[])*/
+
   return (
     <>
       <MobileTopBar mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>
