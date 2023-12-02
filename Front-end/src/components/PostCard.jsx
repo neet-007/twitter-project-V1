@@ -9,7 +9,8 @@ import { useAtom, useSetAtom } from 'jotai'
 import { commentDetailsAtom, isCommentAtom } from '../lib/jotai/atoms'
 
 
-function PostCard({postId, postContent, username, mention, likes, isComment=false}) {
+function PostCard({postId, postContent, username, mention,
+                  likes, isComment=false, isShowComments=false}) {
 
   const navigate = useNavigate()
 
@@ -28,17 +29,19 @@ function PostCard({postId, postContent, username, mention, likes, isComment=fals
     })
   }
 
+
+  const ShowComments = isComment == true ? true : false
   return (
-    <article className='post-card-container' onClick={() => {/*switchComment()
+    <article className='post-card-container' onClick={() => {switchComment()
                                                              setIsComment(true)
-                                                             navigate('/status')*/}}>
+                                                             navigate('/status')}}>
         <ProfilePic isHome={true} postCardToProfile={navigate}/>
-        <ProfileCard className={'profile-card'} username={username} mention={mention}/>
+        <ProfileCard className={'profile-card'} username={username} mention={mention} isShowComments={ShowComments}/>
         <div className='post-content'>
             {postContent}
         </div>
-        {isComment ==  false && <img className={'post-img'} src="src/assets/profile-pic.png" alt="" />}
-        {isComment ==  true ? <div> replaying to {mention}</div> :
+        {(isComment ==  false || isShowComments == true)&& <img className={'post-img'} src="src/assets/profile-pic.png" alt="" />}
+        {isComment ==  true && isShowComments == false ? <div> replaying to {mention}</div> :
         <div className='post-interact'>
           <span onClick={()=>addLike(postId)}><Heart size={20}/> <span>{likes}</span></span>
 

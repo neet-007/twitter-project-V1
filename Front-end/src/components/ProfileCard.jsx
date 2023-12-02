@@ -1,8 +1,10 @@
 import React from 'react'
 import { PatchCheck, ThreeDots, Briefcase, GeoAlt } from 'react-bootstrap-icons'
 import IconHoverEffect from './UI/IconHoverEffect'
+import TwitterButton from './UI/TwitterButton'
 
-function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTopBar=false, profilePageTopBar=false ,profileInfo=false, username, mention}) {
+function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTopBar=false,
+                     profilePageTopBar=false ,profileInfo=false, username, mention, isShowComments}) {
   return (
     <div className={className}>
         <span>{username} {isVerified ? <PatchCheck/>:''}</span>
@@ -11,6 +13,7 @@ function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTop
         }
         {
             !isMobileSideNav && !pageTopBar && !profileInfo ? <><span>Nov14</span>
+            {isShowComments && <TwitterButton Name='Follow' color={'black'}/>}
             <IconHoverEffect className={'profile-card-select'}>
                 <ThreeDots/>
             </IconHoverEffect>

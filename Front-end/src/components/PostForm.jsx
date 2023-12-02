@@ -12,7 +12,7 @@ function updateTextareaSize(textarea){
     textarea.style.height = '0'
     textarea.style.height = `${textarea.scrollHeight}px`
 }
-function PostForm() {
+function PostForm({className}) {
     const queryClient = useQueryClient()
     /*const newPostMutaion = useMutation({
         mutationFn: newPost,
@@ -52,7 +52,7 @@ function PostForm() {
             value={inputValue}
             onChange={(e)=>setInputValue(e.target.value)}/>
         </div>
-        <div className="post-form-interactions">
+        <div className={`post-form-interactions ${className}`}>
             <Image />
             <FiletypeGif />
             <Calendar />

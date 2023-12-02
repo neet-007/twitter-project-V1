@@ -168,6 +168,9 @@ a{
     gap: 1rem;
     margin-top: 4rem;
 }
+.post-form-interactions-show-comments{
+    margin: 0.5rem;
+}
 .post-modal-container{
     width: 100%;
     padding: 1rem;
