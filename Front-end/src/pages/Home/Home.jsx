@@ -41,7 +41,7 @@ function Home({mobileSideNavON, setMobileSideNavOn}) {
 
   return (
     <>
-      <MobileTopBar mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>
+      {/*<MobileTopBar mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>*/}
       <SwitchButtonContainer>
         {TABS.map(tab => {
           return <SwitchButton key={tab} Name={tab} Selected={selectedTab}
@@ -54,6 +54,7 @@ function Home({mobileSideNavON, setMobileSideNavOn}) {
           username={post.user_post.username} mention={post.user_post.mention}
           likes={post.likes}/>
         })*/}
+        <PostForm/>
         {data.map(post => (
           <PostCard key={post.id} postId={post.id} postContent={post.post_content}
           username={post.user_post.username} mention={post.user_post.mention}

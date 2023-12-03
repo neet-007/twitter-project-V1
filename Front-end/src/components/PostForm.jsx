@@ -5,6 +5,7 @@ import CSRFToken from '../data/CSRFToken'
 import { newPost } from '../data/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNewPost } from '../data/queriesAndMutations'
+import TwitterButton from './UI/TwitterButton'
 
 function updateTextareaSize(textarea){
     if (textarea == null) return
@@ -42,7 +43,7 @@ function PostForm({className}) {
         console.log('posted')
     }
   return (
-    <form onSubmit={(e)=>{onSubmit(e, inputValue)}} id='post-form'>
+    <form onSubmit={(e)=>{onSubmit(e, inputValue)}} id='post-form' className='post-form'>
         <CSRFToken/>
         <div className="post-form-pic-textarea">
             <ProfilePic/>
@@ -57,6 +58,7 @@ function PostForm({className}) {
             <FiletypeGif />
             <Calendar />
             <GeoAlt />
+            <TwitterButton Name='Post' color={'blue'} className={'ms-auto'}/>
         </div>
     </form>
   )

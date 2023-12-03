@@ -1,5 +1,5 @@
 import React from 'react'
-import { Bookmark, Cash, DoorOpen, JournalText, People, Person, Twitter } from 'react-bootstrap-icons'
+import { Bell, Bookmark, Cash, DoorOpen, Envelope, HouseDoor, JournalText, People, Person, Search, Twitter } from 'react-bootstrap-icons'
 import { NavLink, useLocation } from 'react-router-dom'
 //import { logOut } from '../../data/api'
 import { useLogOut } from '../../data/queriesAndMutations';
@@ -17,6 +17,14 @@ function NavBarItem({ item, route, className }) {
         return <Person size={30} />;
       case 'Twitter':
         return <Twitter size={30} />;
+      case 'Home':
+        return <HouseDoor size={30}/>
+      case 'Explore':
+        return <Search size={30} />
+      case 'Notifications':
+        return <Bell size={30} />
+      case 'Messages':
+        return <Envelope size={30} />
       case 'Lists':
         return <JournalText size={30} />;
       case 'Bookmarks':
@@ -37,7 +45,7 @@ function NavBarItem({ item, route, className }) {
       <NavLink className={`nav-bar-item ${className}`} to={route}
                onClick={()=>{onClick()}}>
         {getIcon(item)} {/* Render the corresponding icon */}
-        {item}
+        {item == 'Twitter' ? '' : item}
       </NavLink>
     </li>
   );
