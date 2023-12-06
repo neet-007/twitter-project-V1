@@ -89,7 +89,7 @@ class getCurrentUser(APIView):
 
 
 class get_post_feed(generics.ListAPIView):
-    queryset = Post.objects.all()
+    queryset = Post.objects.filter(is_comment=False).order_by('-created_at')
     serializer_class = PostSerializers
 
 
@@ -99,8 +99,38 @@ class get_post_feed_by_user(generics.ListAPIView):
 
     def get_queryset(self):
         user = get_object_or_404(User, id=self.kwargs['pk'])
-        return Post.objects.filter(user_post=user)
+        if user:
+            return Post.objects.filter(user_post=user, is_comment=False).order_by('-created_at')
 
+        return Response({'error':'user is not found'}, status.HTTP_400_BAD_REQUEST)
+
+
+
+class get_comments_for_post(generics.ListAPIView):
+    serializer_class = PostSerializers
+
+    def get_queryset(self):
+        post = get_object_or_404(Post, id=self.kwargs['pk'])
+        if post:
+            return Comment.objects.filter(post=post).order_by('-created_at')
+
+        return Response({'error':'post not found'}, status.HTTP_400_BAD_REQUEST)
+
+
+class get_post_feed_by_followings(generics.ListAPIView):
+    serializer_class = PostSerializers
+
+    def get_queryset(self):
+        user = self.request.user
+        if user:
+            following_query = Follow.objects.filter(following=user)
+
+            if following_query.exists():
+                return Post.objects.filter(user_post__in=following_query)
+
+            return Post.objects.none()
+
+        raise ValueError('User not found')
 
 
 class make_post(generics.CreateAPIView):
@@ -133,15 +163,21 @@ class comment(generics.ListCreateAPIView):
             return Comment.objects.filter(post__id=self.kwargs['pk'])
 
     def post(self, request, *args, **kwargs):
+
         comment = Comment.objects.create(
             user_post = request.user,
-            post_content = request.POST.get('post_content'),
-            post_img = request.POST.get('post_img'),
+            post_content = self.request.data['post_content'],
+            post_img = self.request.data['post_img'],
+            is_comment = True,
+            post = get_object_or_404(Post, id=self.kwargs['pk']),
             likes = 0,
-            post = get_object_or_404(Post, id=self.kwargs['pk'])
         )
 
-        serialized_items = CommentSerializers(comment)
+        user = request.user
+        user.post_count += 1
+        user.save()
+
+        serialized_items = PostSerializers(comment)
         return Response(serialized_items.data, status.HTTP_201_CREATED)
 
 

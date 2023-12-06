@@ -4,7 +4,7 @@ import {Image, FiletypeGif, Calendar, GeoAlt} from 'react-bootstrap-icons'
 import CSRFToken from '../data/CSRFToken'
 import { newPost } from '../data/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useNewPost } from '../data/queriesAndMutations'
+import { useNewComment, useNewPost } from '../data/queriesAndMutations'
 import TwitterButton from './UI/TwitterButton'
 
 function updateTextareaSize(textarea){
@@ -13,13 +13,14 @@ function updateTextareaSize(textarea){
     textarea.style.height = '0'
     textarea.style.height = `${textarea.scrollHeight}px`
 }
-function PostForm({className}) {
+function PostForm({className, postToCommentId}) {
     const queryClient = useQueryClient()
     /*const newPostMutaion = useMutation({
         mutationFn: newPost,
         onSuccess: queryClient.invalidateQueries(['posts',{exact:true}])
     })*/
     const {mutateAsync: createNewPost} = useNewPost()
+    const {mutateAsync: createNewComment} = useNewComment()
     const [inputValue, setInputValue] = useState()
     const textareaRef = useRef()
 
@@ -39,7 +40,7 @@ function PostForm({className}) {
         /*newPostMutaion.mutate({
             post_content:inputValue, post_img:null
         })*/
-        createNewPost({post_content:inputValue, post_img:null})
+        postToCommentId ? createNewComment({id:postToCommentId, post_content:inputValue, post_img:null}) : createNewPost({post_content:inputValue, post_img:null})
         console.log('posted')
     }
   return (

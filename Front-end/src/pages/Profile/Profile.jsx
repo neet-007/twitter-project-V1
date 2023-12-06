@@ -15,8 +15,8 @@ function Profile() {
   const {data, isLoading, isError} = useGetPostByUser(id)
   console.log(data)
   return (
-    <> 
-        <PageTopBar/>
+    <>
+        <PageTopBar userPostCount={data ? data[0].user_post.post_count : 0}/>
         <ProfileInfo userProfileId={id}/>
         <SwitchButtonContainer>
           {PROFILE_TABS.map(tab => {

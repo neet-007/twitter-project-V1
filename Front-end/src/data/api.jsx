@@ -76,7 +76,7 @@ const getPosts = async () => {
   } catch (error) {
     throw new Error(error);
   }
-};
+}
 
 const getPostsByUser = async (id) => {
   try {
@@ -87,7 +87,25 @@ const getPostsByUser = async (id) => {
     console.log(error)
   }
 }
-
+//post-feed-by-following
+const getPostsByFollowing = async () => {
+  try {
+    const response = await axios.get(`/twitter/post-feed-by-following`)
+    console.log(response)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+const getCommentsForPost = async (id) => {
+  try {
+    const response = await axios.get(`/twitter/comments-for-post/${id}`)
+    console.log(response)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
 const showUsers = async () =>{
   try{
     const response = await axios.get('/twitter/show-users')
@@ -109,6 +127,24 @@ const newPost = async ({post_content, post_img}) =>{
   try{
     console.log({post_content})
     let data = await axios.post('/twitter/make-post', {post_content, post_img}, config)
+    console.log(data)
+  }catch(e){
+      console.log(e)
+  }
+}
+
+const newComment = async ({id, post_content, post_img}) => {
+  const config = {
+    headers: {
+      'Accept':'application/json',
+      'Content-type':'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken')
+    }
+
+  }
+  try{
+    console.log({post_content})
+    let data = await axios.post(`/twitter/comment/${id}`, {post_content:post_content, post_img:post_img}, config)
     console.log(data)
   }catch(e){
       console.log(e)
@@ -166,4 +202,4 @@ try{
     console.log(e)
 }
 }
-export {register, logIn, logOut, getCurrentUser, showUsers, getPosts, getPostsByUser, newPost, addLike, follow, unFollow}
+export {register, logIn, logOut, getCurrentUser, showUsers, getPosts, getPostsByUser, getPostsByFollowing, getCommentsForPost, newPost, newComment, addLike, follow, unFollow}

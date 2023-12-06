@@ -7,10 +7,12 @@ import { Bookmark, Chat, Heart } from 'react-bootstrap-icons'
 import { useAddLike } from '../data/queriesAndMutations'
 import { useAtom, useSetAtom } from 'jotai'
 import { commentDetailsAtom, isCommentAtom } from '../lib/jotai/atoms'
+import formatTwitterTime from '../utils/TimeConverter'
 
 
-function PostCard({postId, postContent, username, mention,
+function PostCard({postId, postContent, username, mention, createdAt,
                   likes, isComment=false, isShowComments=false, userId}) {
+  const createdAtFortmated = formatTwitterTime(createdAt)
 
   const navigate = useNavigate()
 
@@ -34,9 +36,10 @@ function PostCard({postId, postContent, username, mention,
   return (
     <article className='post-card-container' onClick={() => {switchComment()
                                                              setIsComment(true)
-                                                             navigate('/status')}}>
+                                                             navigate(`/status/${postId}`)}}>
         <ProfilePic isHome={true} postCardToProfile={navigate} userId={userId}/>
-        <ProfileCard className={'profile-card'} username={username} mention={mention} isShowComments={ShowComments}/>
+        <ProfileCard className={'profile-card'} username={username} mention={mention} isShowComments={ShowComments}
+                     createdAtFortmated={createdAtFortmated}/>
         <div className='post-content'>
             {postContent}
         </div>

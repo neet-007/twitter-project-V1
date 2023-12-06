@@ -51,7 +51,7 @@ function App() {
           <Route path='/lists' element={<Lists mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
           <Route path='/bookmarks' element={<Bookmarks mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
           <Route path='/post' element={<PostModal mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
-          <Route path='/status' element={<ShowComments/>}/>
+          <Route path='/status/:id' element={<ShowComments/>}/>
           <Route path='/soon' element={<Soon mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
         </Route>
       </Routes>

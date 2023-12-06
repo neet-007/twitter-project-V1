@@ -4,7 +4,8 @@ import IconHoverEffect from './UI/IconHoverEffect'
 import TwitterButton from './UI/TwitterButton'
 
 function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTopBar=false,
-                     profilePageTopBar=false ,profileInfo=false, username, mention, isShowComments}) {
+                     profilePageTopBar=false ,profileInfo=false, username, mention, createdAtFortmated,
+                     isShowComments, userPostCount}) {
   return (
     <div className={className}>
         <span>{username} {isVerified ? <PatchCheck/>:''}</span>
@@ -12,7 +13,7 @@ function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTop
           <span className='profile-card-mention'>@{mention}</span>:''
         }
         {
-            !isMobileSideNav && !pageTopBar && !profileInfo ? <><span>Nov14</span>
+            !isMobileSideNav && !pageTopBar && !profileInfo ? <><span>{createdAtFortmated}</span>
             {isShowComments && <TwitterButton Name='Follow' color={'black'}/>}
             <IconHoverEffect className={'profile-card-select'}>
                 <ThreeDots/>
@@ -21,7 +22,7 @@ function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTop
         {
             isMobileSideNav || pageTopBar || profileInfo ? <div>
                                 {pageTopBar?
-                                <span>40.0k Posts</span>:''
+                                <span>{userPostCount} Posts</span>:''
                                 }
                                 {profileInfo ?
                                 <>

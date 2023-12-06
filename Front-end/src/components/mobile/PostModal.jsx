@@ -5,7 +5,7 @@ import TwitterButton from '../UI/TwitterButton'
 import { useNavigate } from 'react-router-dom'
 import PostCard from '../PostCard'
 import { useAtom } from 'jotai'
-import { commentDetailsAtom, isCommentAtom } from '../../lib/jotai/atoms'
+import { commentDetailsAtom, isCommentAtom } from '../../lib/jotai/atoms' 
 
 function PostModal() {
 
@@ -24,7 +24,7 @@ function PostModal() {
             </div>
         </div>
         {isComment == true && <PostCard postId={postIdComment} postContent={postContentComment} username={usernameComment} mention={mentionComment} likes={likesComment} isComment={true}/>}
-        <PostForm/>
+        <PostForm postToCommentId={postIdComment}/>
     </article>
   )
 }

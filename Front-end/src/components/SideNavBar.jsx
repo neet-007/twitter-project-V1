@@ -5,8 +5,10 @@ import TwitterButton from './UI/TwitterButton'
 import ProfileCard from './ProfileCard'
 import ProfilePic from './ProfilePic'
 import AdjustedProfileCard from './AdjustedProfileCard'
-
+import { useUserContetx } from '../context/AuthContext'
 function SideNavBar() {
+
+  const {user} = useUserContetx()
   return (
     <nav className='side-nav-bar-nav'>
         <ul className='side-nav-bar-ul'>
@@ -16,7 +18,7 @@ function SideNavBar() {
         </ul>
         <div className="side-nav-interactions">
           <TwitterButton Name='Post' color={'blue'}/>
-          <AdjustedProfileCard username={'usernmae'} mention={'username'} isSideNav={true}/>
+          <AdjustedProfileCard username={user.username} mention={user.mention} isSideNav={true}/>
         </div>
     </nav>
   )
