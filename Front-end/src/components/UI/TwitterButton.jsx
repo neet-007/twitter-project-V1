@@ -7,7 +7,7 @@ function TwitterButton({Name='button', color, type, onClick, form, className}) {
   color == 'white' ? colorClass = 'button-white':
   color == 'black' ? colorClass = 'button-black':''
   return (
-    <button className={`twitter-button ${colorClass} ${className}`} type={type} form={form}>{Name}</button>
+    <button className={`twitter-button ${colorClass} ${className}`} type={type} form={form} onClick={onClick}>{Name}</button>
   )
 }
 

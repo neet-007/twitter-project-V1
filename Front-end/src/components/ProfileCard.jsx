@@ -9,7 +9,7 @@ function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTop
     <div className={className}>
         <span>{username} {isVerified ? <PatchCheck/>:''}</span>
         {!profilePageTopBar ?
-          <span className='profile-card-mention'>{mention}</span>:''
+          <span className='profile-card-mention'>@{mention}</span>:''
         }
         {
             !isMobileSideNav && !pageTopBar && !profileInfo ? <><span>Nov14</span>

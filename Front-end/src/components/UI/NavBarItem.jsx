@@ -1,15 +1,20 @@
 import React from 'react'
 import { Bell, Bookmark, Cash, DoorOpen, Envelope, HouseDoor, JournalText, People, Person, Search, Twitter } from 'react-bootstrap-icons'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 //import { logOut } from '../../data/api'
 import { useLogOut } from '../../data/queriesAndMutations';
+import { useUserContetx } from '../../context/AuthContext';
 
 function NavBarItem({ item, route, className }) {
   const { pathname } = useLocation();
+
   const {mutateAsync:logOut, isError} = useLogOut()
+  const {user, setIsAuthenticated} = useUserContetx()
+  const navigate = useNavigate()
 
   const isActive = pathname === route; // Check if the current route matches the NavBarItem route
-  const onClick = item == 'Logout' ? ()=>{logOut()}:''
+
+  const onClick = item == 'Logout' ? ()=>{logOut().then(res => {setIsAuthenticated(false); navigate('/log-in')})}:''
   // Map items to corresponding icons
   const getIcon = (item) => {
     switch (item) {
@@ -42,7 +47,7 @@ function NavBarItem({ item, route, className }) {
 
   return (
     <li>
-      <NavLink className={`nav-bar-item ${className}`} to={route}
+      <NavLink className={`nav-bar-item ${className}`} to={item == 'Person' ? `${route}/${user.id}` : route}
                onClick={()=>{onClick()}}>
         {getIcon(item)} {/* Render the corresponding icon */}
         {item == 'Twitter' ? '' : item}

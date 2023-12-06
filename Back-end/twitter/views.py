@@ -5,8 +5,9 @@ from .models import User, Post, Comment, Like, Follow
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .serializers import UserSerializers, PostSerializers, CommentSerializers, LikeSerializers, FollowSerializers
-from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie, csrf_exempt
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import AnonymousUser
 from django.utils.decorators import method_decorator
 # Create your views here.
 
@@ -80,6 +81,9 @@ class getCSRFToken(APIView):
 
 class getCurrentUser(APIView):
     def get (self, request, format=None):
+        if request.user == AnonymousUser():
+            return Response({'error':'not logged in'})
+
         serialized_user = UserSerializers(self.request.user)
         return Response(serialized_user.data, status.HTTP_200_OK)
 
@@ -207,7 +211,7 @@ class Follow_view(generics.CreateAPIView):
         return Response(serialized_items.data, status.HTTP_201_CREATED)
 
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class Unfollow(generics.DestroyAPIView):
     def destroy(self, request, *args, **kwargs):
         to_follow = get_object_or_404(User, id=self.kwargs['pk'])

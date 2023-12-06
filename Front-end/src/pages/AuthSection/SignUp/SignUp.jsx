@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import TwitterButton from '../../../components/UI/TwitterButton'
 //import { register } from '../../../data/api'
 import CSRFToken from '../../../data/CSRFToken'
 import { useLogIn, useRegister } from '../../../data/queriesAndMutations'
-
+import { getCurrentUser } from '../../../data/api'
+import { useUserContetx } from '../../../context/AuthContext'
 function SignUp() {
   const [formData, setFormData] = useState({
     username:'',
@@ -20,19 +21,34 @@ function SignUp() {
   const navigate = useNavigate()
   const onChange = (e) => setFormData({...formData, [e.target.name]:e.target.value})
 
+  const {isAuthenticated, setIsAuthenticated, setUser} = useUserContetx()
+
   const onSubmit = (e) => {
     e.preventDefault()
     console.log(password)
     console.log(re_password)
     if (password === re_password){
-      register({username, password, re_password}
-        ).then(
-        (res) => {logIn({username, password})}
-        ).then(
-        (res) => navigate('/')
-        )
+      register({username, password, re_password}).then(res => {
+        logIn({username, password}).then(res => {
+          getCurrentUser().then(res => {
+            console.log(res)
+            setIsAuthenticated(true)
+            setUser({
+              id:res.id,
+              username:res.username,
+              mention:res.mention,
+              bio:res.bio,
+              following_count:res.following_count,
+              followers_count:res.followers_count,
+              post_count:res.post_count
+            })
+          })
+        })
+      }).then(navigate('/'))
     }
   }
+
+  if (isAuthenticated) return <Navigate to='/'/>
   return (
     <>
       <h3 className='header-auth-form'>

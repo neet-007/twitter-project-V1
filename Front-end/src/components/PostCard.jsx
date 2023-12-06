@@ -10,7 +10,7 @@ import { commentDetailsAtom, isCommentAtom } from '../lib/jotai/atoms'
 
 
 function PostCard({postId, postContent, username, mention,
-                  likes, isComment=false, isShowComments=false}) {
+                  likes, isComment=false, isShowComments=false, userId}) {
 
   const navigate = useNavigate()
 
@@ -35,7 +35,7 @@ function PostCard({postId, postContent, username, mention,
     <article className='post-card-container' onClick={() => {switchComment()
                                                              setIsComment(true)
                                                              navigate('/status')}}>
-        <ProfilePic isHome={true} postCardToProfile={navigate}/>
+        <ProfilePic isHome={true} postCardToProfile={navigate} userId={userId}/>
         <ProfileCard className={'profile-card'} username={username} mention={mention} isShowComments={ShowComments}/>
         <div className='post-content'>
             {postContent}

@@ -1,5 +1,14 @@
 import React, {createContext, useContext, useEffect, useState} from 'react'
 import { getCurrentUser } from '../data/api'
+import { useNavigate } from 'react-router-dom'
+
+/*
+  WHEN THE USER IS LOGGED IN THE USER STATE IS NOT SET BUT THEN AFTER REFRESH ITS SET
+  ALSO WHEN THE USER IS LOGGED OUT THE USER STATA IS NOT SET INSTANTLEY --PROBOPLY HAS
+  TO DO WITH ASYNC FUNCTIONS OR THE FACT THE THE STATE DOESNT CHANGE INSTALNELY BECOUSE ITS JUST A COPY OF THE STATE
+*/
+
+
 export const INITIAL_USER = {
     id:'',
     username:'',
@@ -26,11 +35,12 @@ function AuthProvider({children}) {
   const [isLoading, setIsLoading] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
+  const navigate = useNavigate()
   const checkAuthUser = async () => {
     try {
         const currnetUser = await getCurrentUser()
-
-        if (currnetUser) {
+        console.log(currnetUser)
+        if (!currnetUser.error) {
             setUser({
                 id:currnetUser.id,
                 username:currnetUser.username,
@@ -60,6 +70,11 @@ function AuthProvider({children}) {
     setIsAuthenticated,
     checkAuthUser
   }
+
+  useEffect(() => {
+    console.log(user)
+    checkAuthUser().then(res => {if (!res) navigate('/log-in')})
+  },[])
   return (
     <AuthContext.Provider value={value}>
         {children}

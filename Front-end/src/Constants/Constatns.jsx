@@ -68,7 +68,7 @@ export const SIDE_NAV_ROUTS_BIG = [
     },
     {
         item: 'Person',
-        route: '/profile'
+        route: `/profile`
     },
     {
         item: 'Logout',

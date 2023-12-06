@@ -1,5 +1,5 @@
 import {useQuery, useMutation, useQueryClient, useInfiniteQuery} from '@tanstack/react-query'
-import { addLike, getPosts, logIn, logOut, newPost, register, showUsers } from './api'
+import { addLike, follow, getPosts, getPostsByUser, logIn, logOut, newPost, register, showUsers, unFollow } from './api'
 
 export const useRegister = () => {
     return useMutation({
@@ -22,6 +22,12 @@ export const useGetPosts = () => {
         queryFn: getPosts
     })
 }
+export const useGetPostByUser = (id) => {
+    return useQuery({
+        queryKey:['posts-by-user', id],
+        queryFn: () => getPostsByUser(id)
+    })
+}
 export const useShowusers = () => {
     return useQuery({
         queryKey:['all-users'],
@@ -36,5 +42,15 @@ export const useNewPost = () => {
 export const useAddLike = () => {
     return useMutation({
         mutationFn: (post_id) => addLike (post_id)
+    })
+}
+export const useFollow = () => {
+    return useMutation({
+        mutationFn: (id) => follow(id)
+    })
+}
+export const useUnFollow = () => {
+    return useMutation({
+        mutationFn: (id) => unFollow (id)
     })
 }

@@ -13,6 +13,7 @@ import {getPosts, newPost, showUsers, getCurrentUser} from '../../data/api'
 import CSRFToken from '../../data/CSRFToken'
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
 import { useGetPosts } from '../../data/queriesAndMutations'
+import { useUserContetx } from '../../context/AuthContext'
 
 
 
@@ -20,7 +21,7 @@ function Home({mobileSideNavON, setMobileSideNavOn}) {
   const TABS = ['Recent', 'Following']
   const [selectedTab, setSelectedTab] = useState('Recent')
   //const [posts, setPosts] = useState([])
-
+  const {user} = useUserContetx()
   const queryClient = useQueryClient()
   const {data, isLoading, isError} = useGetPosts()
   /*const postQuery = useQuery({
@@ -58,8 +59,9 @@ function Home({mobileSideNavON, setMobileSideNavOn}) {
         {data.map(post => (
           <PostCard key={post.id} postId={post.id} postContent={post.post_content}
           username={post.user_post.username} mention={post.user_post.mention}
-          likes={post.likes} />
+          likes={post.likes} userId={post.user_post.id}/>
         ))}
+        {console.log(user)}
 
       </div>
     </>

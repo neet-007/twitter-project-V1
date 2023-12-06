@@ -78,6 +78,16 @@ const getPosts = async () => {
   }
 };
 
+const getPostsByUser = async (id) => {
+  try {
+    const response = await axios.get(`/twitter/post-feed-by-user/${id}`)
+    console.log(response)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const showUsers = async () =>{
   try{
     const response = await axios.get('/twitter/show-users')
@@ -123,4 +133,37 @@ const addLike = async (post_id) =>{
   }
 }
 
-export {register, logIn, logOut, getCurrentUser, showUsers, getPosts, newPost, addLike}
+const follow = async (id) => {
+  const config = {
+    headers: {
+      'Accept':'application/json',
+      'Content-type':'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken')
+    }
+}
+try{
+  console.log(id)
+  let data = await axios.post(`/twitter/follow/${id}`, {}, config)
+  console.log(data)
+}catch(e){
+    console.log(e)
+}
+}
+
+const unFollow = async (id) => {
+  const config = {
+    headers: {
+      'Accept':'application/json',
+      'Content-type':'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken')
+    }
+}
+try{
+  console.log(id)
+  let data = await axios.delete(`/twitter/unfollow/${id}`, {}, config)
+  console.log(data)
+}catch(e){
+    console.log(e)
+}
+}
+export {register, logIn, logOut, getCurrentUser, showUsers, getPosts, getPostsByUser, newPost, addLike, follow, unFollow}
