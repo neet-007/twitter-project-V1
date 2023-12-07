@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import SideNavBar from './components/SideNavBar'
 import MobileBottomBar from './components/mobile/MobileBottomBar'
 import MobileTopBar from './components/mobile/MobileTopBar'
-import FollowInfo from './pages/FollowInfo/FollowInfo'
+//import FollowInfo from './pages/FollowInfo/FollowInfo'
 import MobileSideNav from './components/mobile/MobileSideNav'
 //import Home from './pages/Home/Home'
 //import Notifications from './pages/Notificatoins/Notifications'
@@ -30,6 +30,8 @@ const PostModal = LazyLoad('../components/mobile/PostModal')
 const ShowComments = LazyLoad('../pages/ShowComments/ShowComments')
 const Lists = LazyLoad('../pages/Lists/Lists')
 const Bookmarks = LazyLoad('../pages/Bookmarks/Bookmarks')
+const FollowInfo = LazyLoad('../pages/FollowInfo/FollowInfo')
+
 function App() {
 
   const [mobileSideNavON, setMobileSideNavOn] = useState(false)
@@ -52,6 +54,7 @@ function App() {
           <Route path='/bookmarks' element={<Bookmarks mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
           <Route path='/post' element={<PostModal mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
           <Route path='/status/:id' element={<ShowComments/>}/>
+          <Route path='/following' element={<FollowInfo/>}/>
           <Route path='/soon' element={<Soon mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
         </Route>
       </Routes>

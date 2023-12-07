@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from rest_framework import generics, status, permissions
 from rest_framework.views import APIView
-from .models import User, Post, Comment, Like, Follow
+from .models import User, Post, Comment, Like, Follow, Bookmark
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .serializers import UserSerializers, PostSerializers, CommentSerializers, LikeSerializers, FollowSerializers
+from .serializers import UserSerializers, PostSerializers, CommentSerializers, LikeSerializers, FollowSerializers, BookmarkSerializers
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie, csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import AnonymousUser
@@ -59,7 +59,6 @@ class login_view(APIView):
 
 
 
-
 class logout_view(APIView):
     permission_classes = [permissions.AllowAny]
     def post(self, requset, format=None):
@@ -79,6 +78,7 @@ class getCSRFToken(APIView):
         return Response({'message':'csrf token generated'})
 
 
+
 class getCurrentUser(APIView):
     def get (self, request, format=None):
         if request.user == AnonymousUser():
@@ -86,6 +86,7 @@ class getCurrentUser(APIView):
 
         serialized_user = UserSerializers(self.request.user)
         return Response(serialized_user.data, status.HTTP_200_OK)
+
 
 
 class get_post_feed(generics.ListAPIView):
@@ -117,6 +118,7 @@ class get_comments_for_post(generics.ListAPIView):
         return Response({'error':'post not found'}, status.HTTP_400_BAD_REQUEST)
 
 
+
 class get_post_feed_by_followings(generics.ListAPIView):
     serializer_class = PostSerializers
 
@@ -131,6 +133,34 @@ class get_post_feed_by_followings(generics.ListAPIView):
             return Post.objects.none()
 
         raise ValueError('User not found')
+
+
+
+class get_post_with_comments(generics.ListAPIView):
+    serializer_class = PostSerializers
+#model_combination = model_set1.union(model_set2, all=TRUE)
+    def get_queryset(self):
+        post = Post.objects.filter(id=1).prefetch_related('post_comment')
+        comments = post[0].post_comment.all()
+        post_with_comments = post.union(comments, all=True)
+        return post_with_comments
+
+
+
+class get_liked_posts(generics.ListAPIView):
+    serializer_class = PostSerializers
+
+    def get_queryset(self):
+        return Post.objects.filter(post_like__user_like=self.request.user)
+
+
+
+class get_bookmarked_posts(generics.ListAPIView):
+    serializer_class = PostSerializers
+
+    def get_queryset(self):
+        return Post.objects.filter(post_bookmark__user_bookmark=self.request.user)
+
 
 
 class make_post(generics.CreateAPIView):
@@ -208,6 +238,41 @@ class add_like(generics.CreateAPIView):
 
 
 
+class add_bookmark(generics.CreateAPIView):
+    serializer_class = BookmarkSerializers
+
+    def post(self, request, *args, **kwargs):
+        post = get_object_or_404(Post, id=self.kwargs['pk'])
+        user = request.user
+        if Bookmark.objects.filter(user_bookmark=user, post=post):
+            Bookmark.objects.filter(user_bookmark=user, post=post).delete()
+
+        if user.bookmark_count > 0:
+            user.bookmark_count -= 1
+            user.save()
+
+        if post.bookmark > 0:
+            post.bookmark -= 1
+            post.save()
+
+            return Response({'success:':'removed bookmark'}, status.HTTP_200_OK)
+
+        bookmark = Bookmark.objects.create(
+            user_bookmark = user,
+            post = post
+        )
+
+        user.bookmark_count += 1
+        user.save()
+
+        post.bookmark +=1
+        post.save()
+
+        serialized_items = BookmarkSerializers(bookmark)
+        return Response(serialized_items.data, status.HTTP_201_CREATED)
+
+
+
 class edit_or_delete_post(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializers
@@ -247,6 +312,7 @@ class Follow_view(generics.CreateAPIView):
         return Response(serialized_items.data, status.HTTP_201_CREATED)
 
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class Unfollow(generics.DestroyAPIView):
     def destroy(self, request, *args, **kwargs):
@@ -266,15 +332,23 @@ class Unfollow(generics.DestroyAPIView):
 
 
 class show_following(generics.ListAPIView):
-    serializer_class = FollowSerializers
+    serializer_class = UserSerializers
 
     def get_queryset(self):
-        return Follow.objects.filter(following=self.kwargs['pk'])
+        user = get_object_or_404(User, id=self.kwargs['pk'])
+        following_query = Follow.objects.filter(following=user)
+        following_ids = following_query.values_list('to_follow', flat=True)
+
+        return User.objects.filter(id__in=following_ids)
 
 
 
 class show_followers(generics.ListAPIView):
-    serializer_class = FollowSerializers
+    serializer_class = UserSerializers
 
     def get_queryset(self):
-        return Follow.objects.filter(to_follow=self.kwargs['pk'])
+        user = get_object_or_404(User, id=self.kwargs['pk'])
+        following_query = Follow.objects.filter(to_follow=user)
+        following_ids = following_query.values_list('following', flat=True)
+
+        return User.objects.filter(id__in=following_ids)

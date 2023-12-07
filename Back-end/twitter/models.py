@@ -9,6 +9,7 @@ class User(AbstractUser):
     followers_count = models.IntegerField(default=0)
     following_count = models.IntegerField(default=0)
     post_count = models.IntegerField(default=0)
+    bookmark_count = models.IntegerField(default=0)
     def __str__(self) -> str:
         return f'{self.username}'
 
@@ -19,7 +20,9 @@ class Post(models.Model):
     is_comment = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    comment_count = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
+    bookmark = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return f'user: {self.user_post.username}, content: {self.post_content}'
@@ -27,6 +30,10 @@ class Post(models.Model):
 class Like(models.Model):
     user_like = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_like')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_like')
+
+class Bookmark(models.Model):
+    user_bookmark = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_bookmark')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_bookmark')
 
 class Follow(models.Model):
     to_follow = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_following")

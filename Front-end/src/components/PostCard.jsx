@@ -4,19 +4,21 @@ import ProfileCard from './ProfileCard'
 import { useNavigate } from 'react-router-dom'
 import { Bookmark, Chat, Heart } from 'react-bootstrap-icons'
 //import { addLike } from '../data/api'
-import { useAddLike } from '../data/queriesAndMutations'
+import { useAddBookmark, useAddLike } from '../data/queriesAndMutations'
 import { useAtom, useSetAtom } from 'jotai'
 import { commentDetailsAtom, isCommentAtom } from '../lib/jotai/atoms'
 import formatTwitterTime from '../utils/TimeConverter'
 
 
 function PostCard({postId, postContent, username, mention, createdAt,
-                  likes, isComment=false, isShowComments=false, userId}) {
+                  likes, isComment=false, isShowComments=false, userId, commentCount,
+                  bookmarks}) {
   const createdAtFortmated = formatTwitterTime(createdAt)
 
   const navigate = useNavigate()
 
-  const {mutateAsync:addLike, isError} = useAddLike()
+  const {mutateAsync:addLike, isError:likeError} = useAddLike()
+  const {mutateAsync:addBookmark, isError:bookmarkError} = useAddBookmark()
 
   const setCommentDetails = useSetAtom(commentDetailsAtom)
   const setIsComment = useSetAtom(isCommentAtom)
@@ -27,7 +29,9 @@ function PostCard({postId, postContent, username, mention, createdAt,
       postContentComment:postContent,
       usernameComment:username,
       mentionComment:mention,
-      likesComment:likes
+      created_at:createdAtFortmated,
+      likesComment:likes,
+      user_id:userId
     })
   }
 
@@ -50,9 +54,9 @@ function PostCard({postId, postContent, username, mention, createdAt,
 
           <span onClick={() => {switchComment()
                                 setIsComment(true)
-                                navigate('/post')}}><Chat size={20}/> <span>0</span></span>
+                                navigate('/post')}}><Chat size={20}/> <span>{commentCount}</span></span>
 
-          <span><Bookmark size={20}/> <span>0</span></span>
+          <span onClick={()=>addBookmark(postId)}><Bookmark size={20}/> <span>{bookmarks}</span></span>
 
         </div>
         }

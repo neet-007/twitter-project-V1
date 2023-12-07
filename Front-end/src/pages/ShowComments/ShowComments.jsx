@@ -10,14 +10,15 @@ import { useGetCommentsForPost } from '../../data/queriesAndMutations'
 function ShowComments() {
 
   const {id} = useParams()
-  const [{postIdComment, postContentComment, usernameComment, mentionComment, likesComment}] = useAtom(commentDetailsAtom)
+  const [{postIdComment, postContentComment, usernameComment, created_at, mentionComment, likesComment, user_id}] = useAtom(commentDetailsAtom)
   const {data, isLoading, isError} = useGetCommentsForPost(id)
 
   return (
     <section>
         <PageTopBar isShowComments={true}/>
-        <PostCard postId={postIdComment} postContent={postContentComment} username={usernameComment} mention={mentionComment} likes={likesComment} isComment={true} isShowComments={true}/>
-        {data ? 
+        <PostCard postId={postIdComment} postContent={postContentComment} username={usernameComment} mention={mentionComment}
+        likes={likesComment} isComment={true} isShowComments={true} createdAt={created_at} userId={user_id}/>
+        {data ?
         data.map(post => {
           return <PostCard  key={post.id} postId={post.id} postContent={post.post_content}
           username={post.user_post.username} mention={post.user_post.mention}

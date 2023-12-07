@@ -1,5 +1,5 @@
 import {useQuery, useMutation, useQueryClient, useInfiniteQuery} from '@tanstack/react-query'
-import { addLike, follow, getCommentsForPost, getPosts, getPostsByFollowing, getPostsByUser, logIn, logOut, newComment, newPost, register, showUsers, unFollow } from './api'
+import { addBookmark, addLike, follow, getCommentsForPost, getPostWithComments, getPosts, getPostsByFollowing, getPostsByUser, getUserFollowers, getUserFollowing, logIn, logOut, newComment, newPost, register, showUsers, unFollow } from './api'
 
 export const useRegister = () => {
     return useMutation({
@@ -40,6 +40,12 @@ export const useGetCommentsForPost = (id) => {
         queryFn: () => getCommentsForPost(id)
     })
 }
+export const useGetPostWithComments = (id) => {
+    return useQuery({
+        queryKey:['post-with-comments', id],
+        queryFn: () => getPostWithComments(id)
+    })
+}
 export const useShowusers = () => {
     return useQuery({
         queryKey:['all-users'],
@@ -61,6 +67,11 @@ export const useAddLike = () => {
         mutationFn: (post_id) => addLike (post_id)
     })
 }
+export const useAddBookmark = () => {
+    return useMutation({
+        mutationFn: (post_id) => addBookmark (post_id)
+    })
+}
 export const useFollow = () => {
     return useMutation({
         mutationFn: (id) => follow(id)
@@ -69,5 +80,17 @@ export const useFollow = () => {
 export const useUnFollow = () => {
     return useMutation({
         mutationFn: (id) => unFollow (id)
+    })
+}
+export const useGetUserFollowing = (id) => {
+    return useQuery({
+        queryKey: ['user-following', id],
+        queryFn: () => getUserFollowing (id)
+    })
+}
+export const useGetUserFollowers = (id) => {
+    return useQuery({
+        queryKey: ['user-followers', id],
+        queryFn: () => getUserFollowers (id)
     })
 }

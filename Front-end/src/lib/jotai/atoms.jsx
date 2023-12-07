@@ -9,5 +9,7 @@ export const commentDetailsAtom = atom({
     postContentComment:'',
     usernameComment:'',
     mentionComment:'',
-    likesComment:''
+    created_at:'',
+    likesComment:'',
+    user_id:''
 })

@@ -97,6 +97,7 @@ const getPostsByFollowing = async () => {
     console.log(error)
   }
 }
+
 const getCommentsForPost = async (id) => {
   try {
     const response = await axios.get(`/twitter/comments-for-post/${id}`)
@@ -106,6 +107,17 @@ const getCommentsForPost = async (id) => {
     console.log(error)
   }
 }
+
+const getPostWithComments = async (id) => {
+  try {
+    const response = await axios.get(`/twitter/post-with-comments/${id}`)
+    console.log(response)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const showUsers = async () =>{
   try{
     const response = await axios.get('/twitter/show-users')
@@ -169,6 +181,24 @@ const addLike = async (post_id) =>{
   }
 }
 
+const addBookmark = async (post_id) => {
+  const config = {
+    headers: {
+      'Accept':'application/json',
+      'Content-type':'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken')
+    }
+
+  }
+  try{
+    console.log(post_id)
+    let data = await axios.post(`/twitter/add-bookmark/${post_id}`, {}, config)
+    console.log(data)
+  }catch(e){
+      console.log(e)
+  }
+}
+
 const follow = async (id) => {
   const config = {
     headers: {
@@ -202,4 +232,24 @@ try{
     console.log(e)
 }
 }
-export {register, logIn, logOut, getCurrentUser, showUsers, getPosts, getPostsByUser, getPostsByFollowing, getCommentsForPost, newPost, newComment, addLike, follow, unFollow}
+
+const getUserFollowing = async (id) => {
+  try {
+    const response = await axios.get(`/twitter/show-following/${id}`)
+    console.log(response)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getUserFollowers = async (id) => {
+  try {
+    const response = await axios.get(`/twitter/show-followers/${id}`)
+    console.log(response)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+export {register, logIn, logOut, getCurrentUser, showUsers, getPosts, getPostsByUser, getPostsByFollowing, getCommentsForPost, getPostWithComments, newPost, newComment, addLike, addBookmark, follow, unFollow, getUserFollowing, getUserFollowers}

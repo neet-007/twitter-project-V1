@@ -41,6 +41,7 @@ function PostForm({className, postToCommentId}) {
             post_content:inputValue, post_img:null
         })*/
         postToCommentId ? createNewComment({id:postToCommentId, post_content:inputValue, post_img:null}) : createNewPost({post_content:inputValue, post_img:null})
+        setInputValue('')
         console.log('posted')
     }
   return (
