@@ -6,11 +6,12 @@ import ProfileCard from './ProfileCard'
 import ProfilePic from './ProfilePic'
 import AdjustedProfileCard from './AdjustedProfileCard'
 import { useUserContetx } from '../context/AuthContext'
+import { isDesktop } from '../Constants/Constatns'
 function SideNavBar() {
 
   const {user} = useUserContetx()
   return (
-    <nav className='side-nav-bar-nav'>
+    <nav className='side-nav-bar-nav mobile-hide'>
         <ul className='side-nav-bar-ul'>
           {SIDE_NAV_ROUTS_BIG.map(item => {
             return <NavBarItem key={item.item} item={item.item} route={item.route}/>

@@ -5,14 +5,14 @@ import NavBarItem from '../../components/UI/NavBarItem'
 import MobileTopBar from '../../components/mobile/MobileTopBar'
 import MobileBottomBar from '../../components/mobile/MobileBottomBar'
 import {getPosts, logOut, newPost, showUsers} from '../../data/api'
-function Search({mobileSideNavON ,setMobileSideNavOn}) {
+function Search({}) {
   const SEARCH_TABS = ['For you', 'Trending', 'News', 'Sports', 'Entertaiment']
   const [SelectedTab, setSelectedTab] = useState('For you')
 
 
   return (
     <section>
-        <MobileTopBar middleSection='search' mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>
+        <MobileTopBar middleSection='search'/>
         <SwitchButtonContainer>
             {SEARCH_TABS.map(tab => {
                return <SwitchButton key={tab} Name={tab} Selected={SelectedTab} setSelectedTab={() => setSelectedTab(tab)}/>

@@ -4,8 +4,9 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 //import { logOut } from '../../data/api'
 import { useLogOut } from '../../data/queriesAndMutations';
 import { useUserContetx } from '../../context/AuthContext';
+import { shortSideNav } from '../../Constants/Constatns';
 
-function NavBarItem({ item, route, className }) {
+function NavBarItem({ item, route, className }) { 
   const { pathname } = useLocation();
 
   const {mutateAsync:logOut, isError} = useLogOut()
@@ -20,7 +21,9 @@ function NavBarItem({ item, route, className }) {
     switch (item) {
       case 'Person':
         return <Person size={30} />;
-      case 'Twitter':
+      case 'Twitter' || 'TwitterMobile':
+        return <Twitter size={30} />;
+      case 'TwitterMobile':
         return <Twitter size={30} />;
       case 'Home':
         return <HouseDoor size={30}/>
@@ -50,7 +53,7 @@ function NavBarItem({ item, route, className }) {
       <NavLink className={`nav-bar-item ${className}`} to={item == 'Person' ? `${route}/${user.id}` : route}
                onClick={()=>{onClick()}}>
         {getIcon(item)} {/* Render the corresponding icon */}
-        {item == 'Twitter' ? '' : item}
+        {shortSideNav == true ? '' : (item == 'Twitter' ? '' : item)}
       </NavLink>
     </li>
   );

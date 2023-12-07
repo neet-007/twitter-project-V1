@@ -6,13 +6,13 @@ import MobileTopBar from '../../components/mobile/MobileTopBar'
 import {getPosts, newPost, showUsers, getCurrentUser} from '../../data/api'
 import { logOut } from '../../data/api'
 
-function Notifications({mobileSideNavON ,setMobileSideNavOn}) {
+function Notifications({}) {
   const NOTIFICATIONS_TABS = ['All', 'Verified', 'Mentions']
   const [SelectedTab, setSelectedTab] = useState('All')
 
   return (
     <div>
-        <MobileTopBar middleSection='notifacation' mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>
+        <MobileTopBar middleSection='notifacation'/>
         <SwitchButtonContainer>
             {NOTIFICATIONS_TABS.map(tab => {
                 return <SwitchButton key={tab} Name={tab} Selected={SelectedTab} setSelectedTab={()=>{setSelectedTab(tab)}}/>

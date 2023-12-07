@@ -13,6 +13,12 @@ class User(AbstractUser):
     def __str__(self) -> str:
         return f'{self.username}'
 
+class Lists(models.Model):
+    user_list = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_list')
+    list_name = models.CharField(max_length=255)
+    descritpion = models.CharField(max_length=255, blank=True)
+    craeted_at = models.DateTimeField(auto_now=True)
+
 class Post(models.Model):
     user_post = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_post')
     post_content = models.CharField(max_length=240)
@@ -20,6 +26,7 @@ class Post(models.Model):
     is_comment = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    list = models.ManyToManyField(Lists)
     comment_count = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     bookmark = models.IntegerField(default=0)

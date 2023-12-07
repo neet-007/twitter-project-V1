@@ -12,25 +12,26 @@ import MobileBottomBar from '../../components/mobile/MobileBottomBar'
 import {getPosts, newPost, showUsers, getCurrentUser} from '../../data/api'
 import CSRFToken from '../../data/CSRFToken'
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
-import { useGetPosts } from '../../data/queriesAndMutations'
+import { useGetPosts, useGetPostsByFollowing } from '../../data/queriesAndMutations'
 import { useUserContetx } from '../../context/AuthContext'
+import { isDesktop } from '../../Constants/Constatns'
 
 
 
-function Home({mobileSideNavON, setMobileSideNavOn}) {
+function Home({}) {
   const TABS = ['Recent', 'Following']
   const [selectedTab, setSelectedTab] = useState('Recent')
   //const [posts, setPosts] = useState([])
   const {user} = useUserContetx()
   const queryClient = useQueryClient()
-  const {data, isLoading, isError} = useGetPosts()
+  const {data, isLoading, isError} = selectedTab == 'Recent' ? useGetPosts() : useGetPostsByFollowing()
   /*const postQuery = useQuery({
     queryKey: ['posts'],
     queryFn: () => getPosts()
   })*/
 
   if (isLoading) return (<h1>... isLoading</h1>)
-  if (isError) return (<pre>{JSON.stringify(postQuery.error)}</pre>)
+  if (isError) return (<pre>{JSON.stringify(data.error)}</pre>)
   console.log(data)
   /*useEffect(()=>{
     const fetchData = async ()=>{
@@ -55,7 +56,7 @@ function Home({mobileSideNavON, setMobileSideNavOn}) {
           username={post.user_post.username} mention={post.user_post.mention}
           likes={post.likes}/>
         })*/}
-        <PostForm/>
+        <PostForm mobileHide={'mobile-hide'}/>
         {data.map(post => (
           <PostCard key={post.id} postId={post.id} postContent={post.post_content}
           username={post.user_post.username} mention={post.user_post.mention}

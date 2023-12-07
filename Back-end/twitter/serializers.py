@@ -1,10 +1,15 @@
 from rest_framework import serializers
-from .models import User, Post, Comment, Like, Follow, Bookmark
+from .models import User, Post, Comment, Like, Follow, Bookmark, Lists
 
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'bio', 'mention', 'followers_count', 'following_count', 'post_count']
+
+class ListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Lists
+        fields = '__all__'
 
 class PostSerializers(serializers.ModelSerializer):
     user_post = UserSerializers(read_only=True)

@@ -13,7 +13,7 @@ function updateTextareaSize(textarea){
     textarea.style.height = '0'
     textarea.style.height = `${textarea.scrollHeight}px`
 }
-function PostForm({className, postToCommentId}) {
+function PostForm({className, postToCommentId, mobileHide}) {
     const queryClient = useQueryClient()
     /*const newPostMutaion = useMutation({
         mutationFn: newPost,
@@ -45,7 +45,7 @@ function PostForm({className, postToCommentId}) {
         console.log('posted')
     }
   return (
-    <form onSubmit={(e)=>{onSubmit(e, inputValue)}} id='post-form' className='post-form'>
+    <form onSubmit={(e)=>{onSubmit(e, inputValue)}} id='post-form' className={`post-form ${mobileHide}`}>
         <CSRFToken/>
         <div className="post-form-pic-textarea">
             <ProfilePic/>

@@ -1,7 +1,11 @@
 import React from 'react'
 import { useUserContetx } from '../context/AuthContext';
-function ProfilePic({isMobileNav, isHome, isProfilePage, mobileSideNavON, setMobileSideNavOn, postCardToProfile, mobileSideNavToProfile, isMobileTopBar=false, userId}) {
+import { useAtom } from 'jotai';
+import { mobileSideNavOnAtom } from '../lib/jotai/atoms';
+function ProfilePic({isMobileNav, isHome, isProfilePage, postCardToProfile, mobileSideNavToProfile, isMobileTopBar=false, userId}) {
+
   const {user} = useUserContetx()
+  const [mobileSideNavON, setMobileSideNavOn] = useAtom(mobileSideNavOnAtom)
   return (
     <img src="src/assets/profile-pic.png" alt="profile-pic"
      className={`profile-pic-comp

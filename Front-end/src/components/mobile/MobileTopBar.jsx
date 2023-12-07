@@ -2,11 +2,12 @@ import React from 'react'
 import ProfilePic from '../ProfilePic'
 import {Twitter, Gear} from 'react-bootstrap-icons'
 import SearchBar from '../UI/SearchBar'
-function MobileTopBar({middleSection='home', mobileSideNavON, setMobileSideNavOn}) {
-  const isDesktop = window.matchMedia('(min-width: 610px)').matches
+import { isDesktop } from '../../Constants/Constatns'
+function MobileTopBar({middleSection='home',}) {
+
   return (
-    <header className='mobile-top-bar'>
-        {isDesktop ? '' : <ProfilePic mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn} isMobileTopBar={true}/>}
+    <header className={`mobile-top-bar hide-desktop`}>
+        {isDesktop ? '' : <ProfilePic isMobileTopBar={true}/>}
         {middleSection == 'home'? <Twitter size={30}/>
         : middleSection == 'search'? <SearchBar/>
         : middleSection == 'notifacation'? <h3>Notifaction</h3>

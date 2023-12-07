@@ -2,12 +2,13 @@ import React from 'react'
 import {HouseDoorFill, Search, Bell, Envelope} from 'react-bootstrap-icons'
 import MobilePostButton from './MobilePostButton'
 import { Link, useNavigate } from 'react-router-dom'
-
+import { isDesktop } from '../../Constants/Constatns'
 
 function MobileBottomBar() {
+
   const navigate = useNavigate()
   return (
-    <div className='mobile-bottom-bar-container'>
+    <div className='mobile-bottom-bar-container hide-desktop'>
       <MobilePostButton handleClick={()=>navigate('/post')}/>
       <div className='mobile-bottom-bar'>
         <Link to='/'>

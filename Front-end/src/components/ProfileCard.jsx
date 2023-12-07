@@ -2,10 +2,13 @@ import React from 'react'
 import { PatchCheck, ThreeDots, Briefcase, GeoAlt } from 'react-bootstrap-icons'
 import IconHoverEffect from './UI/IconHoverEffect'
 import TwitterButton from './UI/TwitterButton'
+import { useNavigate } from 'react-router-dom'
 
 function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTopBar=false,
-                     profilePageTopBar=false ,profileInfo=false, username, mention, createdAtFortmated,
-                     isShowComments, userPostCount}) {
+                     profilePageTopBar=false ,profileInfo=false, username, mention, followingCount, followersCount,
+                     createdAtFortmated, isShowComments, userPostCount}) {
+
+  const navigate = useNavigate()
   return (
     <div className={className}>
         <span>{username} {isVerified ? <PatchCheck/>:''}</span>
@@ -35,8 +38,8 @@ function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTop
                                 }
                                 {!pageTopBar || profileInfo?
                                 <>
-                                <span>1 Following</span>
-                                <span>1 Followers</span>
+                                <span onClick={()=>navigate('/following')}>{followingCount}Following</span>
+                                <span onClick={()=>navigate('/following')}>{followersCount}Followers</span>
                                 </>:''
                                 }
                                 {profileInfo ?

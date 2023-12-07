@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from rest_framework import generics, status, permissions
 from rest_framework.views import APIView
-from .models import User, Post, Comment, Like, Follow, Bookmark
+from .models import User, Post, Comment, Like, Follow, Bookmark, Lists
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .serializers import UserSerializers, PostSerializers, CommentSerializers, LikeSerializers, FollowSerializers, BookmarkSerializers
+from .serializers import UserSerializers, PostSerializers, CommentSerializers, LikeSerializers, FollowSerializers, BookmarkSerializers, ListSerializers
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie, csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import AnonymousUser
@@ -126,9 +126,10 @@ class get_post_feed_by_followings(generics.ListAPIView):
         user = self.request.user
         if user:
             following_query = Follow.objects.filter(following=user)
-
+            print(following_query)
             if following_query.exists():
-                return Post.objects.filter(user_post__in=following_query)
+                following_ids = following_query.values_list('to_follow', flat=True)
+                return Post.objects.filter(id__in=following_ids).order_by('-created_at')
 
             return Post.objects.none()
 
@@ -271,6 +272,43 @@ class add_bookmark(generics.CreateAPIView):
         serialized_items = BookmarkSerializers(bookmark)
         return Response(serialized_items.data, status.HTTP_201_CREATED)
 
+
+
+class add_new_list(generics.CreateAPIView):
+    queryset = Lists.objects.all()
+    serializer_class = ListSerializers
+
+    def post(self, request, *args, **kwargs):
+
+        if request.user != AnonymousUser():
+            list = Lists.objects.create(
+                user_list = request.user,
+                list_name = self.request.data['list_name'],
+                descritpion = self.request.data['descritpion'],
+            )
+
+            serialized_item = ListSerializers(list)
+
+            return Response(serialized_item.data, status.HTTP_201_CREATED)
+
+        return Response({'error':'user not logged in'},status.HTTP_400_BAD_REQUEST)
+
+
+
+class add_post_to_list(generics.UpdateAPIView):
+    pass
+
+
+class add_post_to_new_list(generics.CreateAPIView):
+    pass
+
+
+
+class show_user_lists(generics.ListAPIView):
+    serializer_class = ListSerializers
+
+    def get_queryset(self):
+        return Lists.objects.filter(user_list=self.request.user)
 
 
 class edit_or_delete_post(generics.RetrieveUpdateDestroyAPIView):

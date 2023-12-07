@@ -39,7 +39,6 @@ function AuthProvider({children}) {
   const checkAuthUser = async () => {
     try {
         const currnetUser = await getCurrentUser()
-        console.log(currnetUser)
         if (!currnetUser.error) {
             setUser({
                 id:currnetUser.id,

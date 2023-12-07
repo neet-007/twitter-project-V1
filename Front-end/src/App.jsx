@@ -36,8 +36,8 @@ function App() {
 
   const [mobileSideNavON, setMobileSideNavOn] = useState(false)
   return (
-    <>
-      <MobileSideNav mobileSideNavON={mobileSideNavON} setMobileSideNavON={setMobileSideNavOn}/>
+    <>{/*changed this one*/}
+      <MobileSideNav/>
       <Routes>
         {/* Public routes*/}
         <Route element={<AuthLayout/>}>
@@ -45,17 +45,25 @@ function App() {
           <Route path='/log-in' element={<Login/>}/>
         </Route>
         {/* Private routes*/}
-        <Route element={<MainLayout mobileSideNavON={mobileSideNavON} setMobileNavOn={setMobileSideNavOn}/>}>
-          <Route index exact element={<Home mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
-          <Route path='/profile/:id' element={<Profile mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
-          <Route path='/search' element={<Search mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
-          <Route path='/notifications' element={<Notifications mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
-          <Route path='/lists' element={<Lists mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
-          <Route path='/bookmarks' element={<Bookmarks mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
-          <Route path='/post' element={<PostModal mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
+        {/*changed this one*/}
+        <Route element={<MainLayout/>}>
+          {/*changed this one*/}
+          <Route index exact element={<Home/>}/>
+          {/*changed this one*/}
+          <Route path='/profile/:id' element={<Profile/>}/>
+          {/*changed this one*/}
+          <Route path='/search' element={<Search/>}/>
+          {/*changed this one*/}
+          <Route path='/notifications' element={<Notifications/>}/>
+          {/*changed this one*/}
+          <Route path='/lists' element={<Lists/>}/>
+          {/*changed this one*/}
+          <Route path='/bookmarks' element={<Bookmarks/>}/>
+          {/*changed this one*/}
+          <Route path='/post' element={<PostModal/>}/>
           <Route path='/status/:id' element={<ShowComments/>}/>
           <Route path='/following' element={<FollowInfo/>}/>
-          <Route path='/soon' element={<Soon mobileSideNavON={mobileSideNavON} setMobileSideNavOn={setMobileSideNavOn}/>}/>
+          <Route path='/soon' element={<Soon/>}/>
         </Route>
       </Routes>
     </>

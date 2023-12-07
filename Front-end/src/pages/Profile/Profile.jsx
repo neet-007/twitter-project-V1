@@ -7,6 +7,7 @@ import SwitchButtonContainer from '../../components/UI/SwitchButtonContainer'
 import MobileBottomBar from '../../components/mobile/MobileBottomBar'
 import { useParams } from 'react-router-dom'
 import { useGetPostByUser } from '../../data/queriesAndMutations'
+
 function Profile() {
   const PROFILE_TABS = ['Profile','Repiles','Media','Likes']
   const [selectedTab, setSelectedTab] = useState('Profile')

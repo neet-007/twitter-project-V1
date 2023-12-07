@@ -2,10 +2,12 @@ import React from 'react'
 import HighlightBox from './UI/HighlightBox'
 import SearchBar from './UI/SearchBar'
 import AdjustedProfileCard from './AdjustedProfileCard'
+import { isDesktop } from '../Constants/Constatns'
 
 function SerachSideBar() {
+
   return (
-    <section className='search-side-bar'>
+    <section className='search-side-bar mobile-hide'>
       <SearchBar/>
       <HighlightBox Title='Trending' list={['Real Madrid', 'Liverpool', 'Donald Trump', 'US is TERROR']}/>
       <HighlightBox Title='Who to follow' list={[<AdjustedProfileCard username={'username'} mention={'mention'}/>, <AdjustedProfileCard username={'username'} mention={'mention'}/>, <AdjustedProfileCard username={'username'} mention={'mention'}/>]}/>

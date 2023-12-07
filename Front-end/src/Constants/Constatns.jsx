@@ -4,7 +4,7 @@ export const SIDE_NAV_ROUTS = [
         route: '/profile'
     },
     {
-        item: 'Twitter',
+        item: 'TwitterMobile',
         route: '/'
     },
     {
@@ -75,3 +75,7 @@ export const SIDE_NAV_ROUTS_BIG = [
         route: '/'
     }
 ]
+
+export const isDesktop = window.matchMedia('(min-width: 610px)').matches
+
+export const shortSideNav = window.matchMedia('(max-width: 800px)').matches
