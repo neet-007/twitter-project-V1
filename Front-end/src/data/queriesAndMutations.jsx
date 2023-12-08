@@ -1,5 +1,5 @@
 import {useQuery, useMutation, useQueryClient, useInfiniteQuery} from '@tanstack/react-query'
-import { addBookmark, addLike, follow, getBookmarkedPosts, getCommentsForPost, getPostWithComments, getPosts, getPostsByFollowing, getPostsByUser, getUserFollowers, getUserFollowing, logIn, logOut, newComment, newPost, register, showUsers, unFollow } from './api'
+import { addBookmark, addLike, follow, getBookmarkedPosts, getCommentsForPost, getListPosts, getPostWithComments, getPosts, getPostsByFollowing, getPostsByUser, getUserFollowers, getUserFollowing, logIn, logOut, newComment, newPost, register, showUsers, unFollow } from './api'
 
 export const useRegister = () => {
     return useMutation({
@@ -50,6 +50,12 @@ export const useGetBookmarkedPosts = () => {
     return useQuery({
         queryKey:['bookmaked-post'],
         queryFn: () => getBookmarkedPosts()
+    })
+}
+export const useGetListPosts = (id) => {
+    return useQuery({
+        queryKey:['list-post', id],
+        queryFn: () => getListPosts(id)
     })
 }
 export const useShowusers = () => {

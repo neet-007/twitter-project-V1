@@ -7,6 +7,7 @@ class UserSerializers(serializers.ModelSerializer):
         fields = ['id', 'username', 'bio', 'mention', 'followers_count', 'following_count', 'post_count']
 
 class ListSerializers(serializers.ModelSerializer):
+    user_list = UserSerializers(read_only=True)
     class Meta:
         model = Lists
         fields = '__all__'
@@ -15,6 +16,7 @@ class PostSerializers(serializers.ModelSerializer):
     user_post = UserSerializers(read_only=True)
     likes = serializers.IntegerField(read_only=True)
     is_comment = serializers.BooleanField(read_only=True)
+    list = ListSerializers(read_only=True, many=True)
     class Meta:
         model = Post
         fields = '__all__'

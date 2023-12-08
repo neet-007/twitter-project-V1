@@ -7,7 +7,7 @@ function Bookmarks() {
   const {data} = useGetBookmarkedPosts()
   return (
     <section>
-      <PageTopBar/>
+      <PageTopBar isShowComments={false} name={'Bookmarks'}/>
       {data ? data.map(post => {
         return <PostCard key={post.id} postId={post.id} postContent={post.post_content}
         username={post.user_post.username} mention={post.user_post.mention}

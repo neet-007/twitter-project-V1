@@ -26,7 +26,7 @@ class Post(models.Model):
     is_comment = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    list = models.ManyToManyField(Lists)
+    list = models.ManyToManyField(Lists, blank=True)
     comment_count = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     bookmark = models.IntegerField(default=0)

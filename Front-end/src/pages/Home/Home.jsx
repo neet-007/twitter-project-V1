@@ -15,6 +15,7 @@ import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
 import { useGetPosts, useGetPostsByFollowing } from '../../data/queriesAndMutations'
 import { useUserContetx } from '../../context/AuthContext'
 import { isDesktop } from '../../Constants/Constatns'
+import SearchMenu from '../../components/UI/SearchMenu'
 
 
 

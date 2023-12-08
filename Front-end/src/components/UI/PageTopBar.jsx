@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSetAtom } from 'jotai'
 import { isCommentAtom } from '../../lib/jotai/atoms'
 
-function PageTopBar({isShowComments, userPostCount}) {
+function PageTopBar({isShowComments, userPostCount, name}) {
 
   const setIsComment = useSetAtom(isCommentAtom)
   const navigate = useNavigate()
@@ -14,9 +14,12 @@ function PageTopBar({isShowComments, userPostCount}) {
     <header className='page-top-bar'>
         <ArrowLeft size={20} onClick={()=>{navigate(-1);
                                            setIsComment(false)}}/>
-        {isShowComments == true ? <h2>Post</h2> :
-          <ProfileCard pageTopBar={true} profilePageTopBar={true} userPostCount={userPostCount}/>
-        }
+        <div className='page-top-bar-info'>
+          {name ? <h2>{name}</h2> : ''}
+          {isShowComments === true ? <h2>Post</h2> :
+            <ProfileCard pageTopBar={true} profilePageTopBar={true} userPostCount={userPostCount}/>
+          }
+        </div>
     </header>
   )
 }

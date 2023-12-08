@@ -127,6 +127,17 @@ const getBookmarkedPosts = async () => {
     console.log(error)
   }
 }
+
+const getListPosts = async (id) => {
+  try {
+    const response = await axios.get(`/twitter/list-posts/${id}`)
+    console.log(response)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const showUsers = async () =>{
   try{
     const response = await axios.get('/twitter/show-users')
@@ -261,4 +272,4 @@ const getUserFollowers = async (id) => {
     console.log(error)
   }
 }
-export {register, logIn, logOut, getCurrentUser, showUsers, getPosts, getPostsByUser, getPostsByFollowing, getCommentsForPost, getPostWithComments, getBookmarkedPosts, newPost, newComment, addLike, addBookmark, follow, unFollow, getUserFollowing, getUserFollowers}
+export {register, logIn, logOut, getCurrentUser, showUsers, getPosts, getPostsByUser, getPostsByFollowing, getCommentsForPost, getPostWithComments, getBookmarkedPosts, getListPosts, newPost, newComment, addLike, addBookmark, follow, unFollow, getUserFollowing, getUserFollowers}

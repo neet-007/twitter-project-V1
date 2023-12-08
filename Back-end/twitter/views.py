@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import generics, status, permissions
 from rest_framework.views import APIView
@@ -9,6 +10,7 @@ from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie, csrf_
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import AnonymousUser
 from django.utils.decorators import method_decorator
+from django.core import serializers
 # Create your views here.
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -106,9 +108,9 @@ class get_post_feed_by_user(generics.ListAPIView):
         return Response({'error':'user is not found'}, status.HTTP_400_BAD_REQUEST)
 
 
-
+#hits the database set one time
 class get_comments_for_post(generics.ListAPIView):
-    serializer_class = PostSerializers
+    serializer_class = CommentSerializers
 
     def get_queryset(self):
         post = get_object_or_404(Post, id=self.kwargs['pk'])
@@ -116,6 +118,20 @@ class get_comments_for_post(generics.ListAPIView):
             return Comment.objects.filter(post=post).order_by('-created_at')
 
         return Response({'error':'post not found'}, status.HTTP_400_BAD_REQUEST)
+
+
+#hits the database two times
+def get_post_with_comments(request, pk):
+    if request.method == 'GET':
+        post = get_object_or_404(Post, id=pk)
+        post_comments = Comment.objects.filter(post=post)
+
+        post = PostSerializers(post)
+        post_comments = CommentSerializers(post_comments, many=True)
+
+        return JsonResponse({'post':post.data, 'comments':post_comments.data}, status=200)
+
+    return JsonResponse({'error':'METHOD NOT ALLOWED'}, status=400)
 
 
 
@@ -137,17 +153,6 @@ class get_post_feed_by_followings(generics.ListAPIView):
 
 
 
-class get_post_with_comments(generics.ListAPIView):
-    serializer_class = PostSerializers
-#model_combination = model_set1.union(model_set2, all=TRUE)
-    def get_queryset(self):
-        post = Post.objects.filter(id=1).prefetch_related('post_comment')
-        comments = post[0].post_comment.all()
-        post_with_comments = post.union(comments, all=True)
-        return post_with_comments
-
-
-
 class get_liked_posts(generics.ListAPIView):
     serializer_class = PostSerializers
 
@@ -161,6 +166,37 @@ class get_bookmarked_posts(generics.ListAPIView):
 
     def get_queryset(self):
         return Post.objects.filter(post_bookmark__user_bookmark=self.request.user)
+
+
+#hits the database set one time
+class get_list_posts(generics.ListAPIView):
+    serializer_class = PostSerializers
+
+    def get_queryset(self):
+        if Lists.objects.filter(id=self.kwargs['pk']).exists():
+            return Post.objects.filter(list__id=self.kwargs['pk'])
+
+        return Post.objects.none()
+
+
+#hits the the database two times
+def get_list_and_posts(request, pk):
+
+    if request.method == 'GET':
+        try:
+
+            list = Lists.objects.filter(id=pk)[0]
+            list_posts = Post.objects.filter(list=list)
+
+            list = ListSerializers(list)
+            list_posts = PostSerializers(list_posts, many=True)
+
+            return JsonResponse({'list':list.data, 'posts':list_posts.data}, status=200, safe=False)
+
+        except Lists.DoesNotExist:
+            return JsonResponse({"error": "List does not exist"}, status=404)
+
+    return JsonResponse({'error':'METHOD NOT ALLOWED'}, status=400)
 
 
 
@@ -296,12 +332,40 @@ class add_new_list(generics.CreateAPIView):
 
 
 class add_post_to_list(generics.UpdateAPIView):
-    pass
+    queryset = Lists.objects.all()
+    serializer_class = ListSerializers
+
+    def put(self, request, *args, **kwargs):
+        post = get_object_or_404(Post, id=self.kwargs['pk'])
+        list = get_object_or_404(Lists, id=self.request.data['list_id'])
+
+        post.list.add(list)
+        post.save()
+
+        return Response({'success':'post added successfuly'})
 
 
 class add_post_to_new_list(generics.CreateAPIView):
-    pass
+    queryset = Lists.objects.all()
+    serializer_class = ListSerializers
 
+    def post(self, request, *args, **kwargs):
+        if request.user != AnonymousUser():
+
+            post  = get_object_or_404(Post, id=self.kwargs['pk'])
+            if post:
+                list = post.list.create(
+                    user_list = request.user,
+                    list_name = self.request.data['list_name'],
+                    descritpion = self.request.data['descritpion'],
+                )
+
+                serialized_item = ListSerializers(list)
+                return Response(serialized_item.data, status.HTTP_201_CREATED)
+
+            return Response({'error','post not found'},status.HTTP_404_NOT_FOUND)
+
+        return Response({'erorr','user is not authentacted'}, status.HTTP_401_UNAUTHORIZED)
 
 
 class show_user_lists(generics.ListAPIView):

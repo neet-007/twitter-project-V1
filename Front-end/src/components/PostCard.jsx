@@ -47,7 +47,7 @@ function PostCard({postId, postContent, username, mention, createdAt,
         <div className='post-content'>
             {postContent}
         </div>
-        {(isComment ==  false || isShowComments == true)&& <img className={'post-img'} src="src/assets/profile-pic.png" alt="" />}
+        {(isComment ==  false || isShowComments == true)&& <img className={'post-img'} src="/src/assets/profile-pic.png" alt="" />}
         {isComment ==  true && isShowComments == false ? <div> replaying to {mention}</div> :
         <div className='post-interact'>
           <span onClick={()=>addLike(postId)}><Heart size={20}/> <span>{likes}</span></span>

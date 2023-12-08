@@ -7,7 +7,7 @@ function ProfilePic({isMobileNav, isHome, isProfilePage, postCardToProfile, mobi
   const {user} = useUserContetx()
   const [mobileSideNavON, setMobileSideNavOn] = useAtom(mobileSideNavOnAtom)
   return (
-    <img src="src/assets/profile-pic.png" alt="profile-pic"
+    <img src="/src/assets/profile-pic.png" alt="profile-pic"
      className={`profile-pic-comp
      ${isHome ? 'profile-pic-post-grid': ''}
      ${isProfilePage ? 'profile-page-profile-pic' : 'normal-profile-pic'}`}

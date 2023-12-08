@@ -56,7 +56,7 @@ function App() {
           {/*changed this one*/}
           <Route path='/notifications' element={<Notifications/>}/>
           {/*changed this one*/}
-          <Route path='/lists' element={<Lists/>}/>
+          <Route path='/lists/:id' element={<Lists/>}/>
           {/*changed this one*/}
           <Route path='/bookmarks' element={<Bookmarks/>}/>
           {/*changed this one*/}
