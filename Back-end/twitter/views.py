@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import AnonymousUser
 from django.utils.decorators import method_decorator
 from django.core import serializers
+from .utils import send_email_function
 # Create your views here.
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -20,18 +21,19 @@ class signup_view(APIView):
     def post (self, requset, format=None):
         data = self.request.data
 
+        email = data['email'] #username
         username = data['username']
         password = data['password']
         re_password = data['re_password']
 
         if password == re_password:
-            if User.objects.filter(username=username).exists():
-                return Response({'error':'user already exixst'}, status.HTTP_400_BAD_REQUEST)
+            if User.objects.filter(email=email).exists():
+                return Response({'error':'email already exixst'}, status.HTTP_400_BAD_REQUEST)
 
             if len(password) < 8:
                     return Response({'error':'password must be 8 charechtars long'}, status.HTTP_400_BAD_REQUEST)
 
-            new_user = User.objects.create_user(username=username, password=password)
+            new_user = User.objects.create_user(email=email, username=username, password=password)
             new_user.save()
 
             return Response({'message':'user craeted'}, status.HTTP_201_CREATED)
@@ -48,14 +50,14 @@ class login_view(APIView):
     def post(self, requset, format=None):
         data = self.request.data
 
-        username = data['username']
+        email = data['email'] #username
         password = data['password']
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)
 
         if user is not None:
             login(requset, user)
-            return Response({'message':'login succseful usernmae' + ' ' + username}, status.HTTP_200_OK)
+            return Response({'message':'login succseful usernmae' + ' ' + email}, status.HTTP_200_OK)
         else:
             return Response({'error':'authintectaion failed'}, status.HTTP_400_BAD_REQUEST)
 
@@ -506,12 +508,28 @@ class search_view(generics.ListAPIView):
 
 
 class send_email_view(APIView):
-    def post(self, request, format=None):
-        user = request.user
-        token = Verification.objects.create(
-            user=user
-        )
+    def post(self, request, type, format=None):
+        if type == 'verify':
+            user = request.user
+            token = Verification.objects.create(user=user)
+            send_email_function(email=user.email, token_id=token.token, user_id=user.id)
+            return Response({'success':'email sent'},status.HTTP_201_CREATED)
+
+        return Response({'error':'invalid type'}, status.HTTP_400_BAD_REQUEST)
 
 
 class verify_email(APIView):
-    pass
+    def post(self, request):
+        token = self.request.data['token']
+        user_id = self.request.data['user']
+
+        if Verification.objects.filter(token=token, user__id=user_id).exists():
+            user = get_object_or_404(User, id=user_id)
+            user.email_verifed = True
+            user.save()
+
+            get_object_or_404(Verification, token=token, user=user).delete()
+
+            return Response({'success':'user verified'})
+
+        return Response({'error':'invalid credentials'})

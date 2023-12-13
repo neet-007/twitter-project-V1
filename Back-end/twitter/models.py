@@ -1,9 +1,31 @@
 from typing import Any
 from django.db import models
 from uuid import uuid4
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 # Create your models here.
-class User(AbstractUser):
+class UserManager(BaseUserManager):
+    def create_user(self, email, username, password=None, **extra_fields):
+        if not email:
+            raise ValueError('email field required')
+
+        email = self.normalize_email(email)
+        user = self.model(email=email, username=username)
+        user.set_password(password)
+
+        user.save()
+        return user
+
+    def create_superuser(self, email, username, password=None, **extra_fields):
+       user = self.create_user(email=email, username=username, password=password)
+       user.is_staff = True
+       user.is_admin = True
+       user.is_superuser = True
+       user.save()
+       return user
+
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(max_length=255, unique=True)
+    username = models.CharField(max_length=255)
     bio = models.CharField(max_length=150, null=True, blank=True)
     mention = models.CharField(max_length=50)
     profile_pic = models.ImageField(null=True, blank=True)
@@ -12,8 +34,19 @@ class User(AbstractUser):
     post_count = models.IntegerField(default=0)
     bookmark_count = models.IntegerField(default=0)
     email_verifed = models.BooleanField(default=False)
+
+    REQUIRED_FIELDS = ['username']
+
+    objects = UserManager()
+
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+
+    USERNAME_FIELD = 'email'
     def __str__(self) -> str:
-        return f'{self.username}'
+        return f'email:{self.email} username:{self.username}'
 
 class Lists(models.Model):
     user_list = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_list')
