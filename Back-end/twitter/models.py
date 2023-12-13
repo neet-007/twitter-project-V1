@@ -1,5 +1,6 @@
 from typing import Any
 from django.db import models
+from uuid import uuid4
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
 class User(AbstractUser):
@@ -10,6 +11,7 @@ class User(AbstractUser):
     following_count = models.IntegerField(default=0)
     post_count = models.IntegerField(default=0)
     bookmark_count = models.IntegerField(default=0)
+    email_verifed = models.BooleanField(default=False)
     def __str__(self) -> str:
         return f'{self.username}'
 
@@ -48,3 +50,8 @@ class Follow(models.Model):
 
 class Comment(Post, models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment')
+
+class Verification(models.Model):
+    token = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='verify_user')

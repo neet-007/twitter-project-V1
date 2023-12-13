@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import generics, status, permissions
 from rest_framework.views import APIView
-from .models import User, Post, Comment, Like, Follow, Bookmark, Lists
+from .models import User, Post, Comment, Like, Follow, Bookmark, Lists, Verification
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .serializers import UserSerializers, PostSerializers, CommentSerializers, LikeSerializers, FollowSerializers, BookmarkSerializers, ListSerializers
@@ -88,6 +88,14 @@ class getCurrentUser(APIView):
 
         serialized_user = UserSerializers(self.request.user)
         return Response(serialized_user.data, status.HTTP_200_OK)
+
+
+
+class getUserProfile(generics.RetrieveAPIView):
+    serializer_class = UserSerializers
+
+    def get_queryset(self):
+        return User.objects.filter(id=self.kwargs['pk'])
 
 
 
@@ -454,3 +462,56 @@ class show_followers(generics.ListAPIView):
         following_ids = following_query.values_list('following', flat=True)
 
         return User.objects.filter(id__in=following_ids)
+
+
+
+class search_view(generics.ListAPIView):
+
+    def get_queryset(self):
+        query = self.request.query_params.get('q')
+
+        if query:
+            filter = self.request.query_params.get('f')
+
+            if not filter:
+                return Post.objects.filter(post_content__icontains=query)
+
+            if filter == 'user':
+                return User.objects.filter(username__icontains=query)
+
+            if filter == 'media':
+                return User.objects.none
+
+            if filter == 'live':
+                return Post.objects.filter(post_content__icontains=query).order_by('-created_at')
+
+        return User.objects.none
+
+    def get_serializer_class(self):
+        query = self.request.query_params.get('q')
+
+        if query:
+            filter = self.request.query_params.get('f')
+
+            if not filter or filter == 'live':
+                return PostSerializers
+
+            if filter == 'user':
+                return UserSerializers
+
+            if filter == 'media':
+                return UserSerializers
+
+        return UserSerializers
+
+
+class send_email_view(APIView):
+    def post(self, request, format=None):
+        user = request.user
+        token = Verification.objects.create(
+            user=user
+        )
+
+
+class verify_email(APIView):
+    pass

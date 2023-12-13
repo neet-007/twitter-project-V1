@@ -5,7 +5,7 @@ import TwitterButton from './UI/TwitterButton'
 import { useNavigate } from 'react-router-dom'
 
 function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTopBar=false,
-                     profilePageTopBar=false ,profileInfo=false, username, mention, followingCount, followersCount,
+                     profilePageTopBar=false ,profileInfo=false, username, mention, bio, followingCount=0, followersCount=0,
                      createdAtFortmated, isShowComments, userPostCount}) {
 
   const navigate = useNavigate()
@@ -29,7 +29,7 @@ function ProfileCard({className, isVerified=true, isMobileSideNav=false, pageTop
                                 }
                                 {profileInfo ?
                                 <>
-                                  <h6 className='bio'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione, porro.</h6>
+                                  <h6 className='bio'>{bio ? bio : ''}</h6>
                                   <div className='date-occupaton'>
                                     <span><Briefcase/>Occupation</span>
                                     <span><GeoAlt/>Joind july 2017</span>

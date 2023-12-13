@@ -1,5 +1,5 @@
 import {useQuery, useMutation, useQueryClient, useInfiniteQuery} from '@tanstack/react-query'
-import { addBookmark, addLike, follow, getBookmarkedPosts, getCommentsForPost, getListPosts, getPostWithComments, getPosts, getPostsByFollowing, getPostsByUser, getUserFollowers, getUserFollowing, logIn, logOut, newComment, newPost, register, showUsers, unFollow } from './api'
+import { addBookmark, addLike, follow, getBookmarkedPosts, getCommentsForPost, getListPosts, getPostWithComments, getPosts, getPostsByFollowing, getPostsByUser, getUserFollowers, getUserFollowing, getUserProfile, logIn, logOut, newComment, newPost, register, search, showUsers, unFollow } from './api'
 
 export const useRegister = () => {
     return useMutation({
@@ -92,6 +92,18 @@ export const useFollow = () => {
 export const useUnFollow = () => {
     return useMutation({
         mutationFn: (id) => unFollow (id)
+    })
+}
+export const useGetUserProfile = (id) => {
+    return useQuery({
+        queryKey:['get-user-profile', id],
+        queryFn: () => getUserProfile(id)
+    })
+}
+export const useSearch = ({q, f}) => {
+    return useQuery({
+        queryKey: ['serach', q, f],
+        queryFn: () => search({q:q, f:f})
     })
 }
 export const useGetUserFollowing = (id) => {

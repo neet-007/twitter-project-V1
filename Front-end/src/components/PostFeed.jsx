@@ -1,7 +1,7 @@
 import React from 'react'
 import PostCard from './PostCard'
 
-function PostFeed({posts}) {
+function PostFeed({posts, message='No posts avaialbes'}) {
   return (
     <section className='home-container'>
         {posts ? posts.map(post => {
@@ -10,7 +10,7 @@ function PostFeed({posts}) {
             createdAt={post.created_at} likes={post.likes} userId={post.user_post.id}
             commentCount={post.comment_count} bookmarks={post.bookmark}/>
         })
-        : <h1>NO posts availables</h1>}
+        : <h1>{message}</h1>}
     </section>
   )
 }

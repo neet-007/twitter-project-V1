@@ -6,25 +6,24 @@ import { commentDetailsAtom } from '../../lib/jotai/atoms'
 import { useParams } from 'react-router-dom'
 import PostForm from '../../components/PostForm'
 import { useGetCommentsForPost } from '../../data/queriesAndMutations'
+import PostFeed from '../../components/PostFeed'
 
 function ShowComments() {
 
   const {id} = useParams()
-  const [{postIdComment, postContentComment, usernameComment, created_at, mentionComment, likesComment, user_id}] = useAtom(commentDetailsAtom)
+  const [{postIdComment}] = useAtom(commentDetailsAtom)
   const {data, isLoading, isError} = useGetCommentsForPost(id)
+
+  if (isLoading) return (<h1>...Loading</h1>)
 
   return (
     <section>
         <PageTopBar isShowComments={true}/>
-        <PostCard postId={postIdComment} postContent={postContentComment} username={usernameComment} mention={mentionComment}
-        likes={likesComment} isComment={true} isShowComments={true} createdAt={created_at} userId={user_id}/>
-        {data ?
-        data.map(post => {
-          return <PostCard  key={post.id} postId={post.id} postContent={post.post_content}
-          username={post.user_post.username} mention={post.user_post.mention}
-          createdAt={post.created_at} likes={post.likes} userId={post.user_post.id}/>
-        })
-        :<h1>No comments</h1>}
+        {!data || !data.length ? <h1>NO comments now add one</h1> :
+        <PostCard postId={data[0].post.id} postContent={data[0].post.post_content} username={data[0].post.user_post.username} mention={data[0].post.user_post.mention}
+        likes={data[0].post.likes} isComment={true} isShowComments={true} createdAt={data[0].post.created_at} userId={data[0].post.user_post.id} bookmarks={data[0].post.bookmarks}
+        commentCount={data[0].post.comment_count}/>}
+        <PostFeed posts={data}/>
     </section>
   )
 }

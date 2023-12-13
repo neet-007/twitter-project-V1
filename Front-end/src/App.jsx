@@ -18,7 +18,7 @@ import MainLayout from './pages/MainLayout'
 import Soon from './pages/Soon'
 //import PostModal from './components/mobile/PostModal'
 import { LazyLoad } from './utils/LazyLoad'
-import { useState } from 'react'
+import { lazy, useState } from 'react'
 
 const SignUp = LazyLoad('../pages/AuthSection/SignUp/SignUp')
 const Login = LazyLoad('../pages/AuthSection/LogIn/LogIN')
@@ -31,6 +31,7 @@ const ShowComments = LazyLoad('../pages/ShowComments/ShowComments')
 const Lists = LazyLoad('../pages/Lists/Lists')
 const Bookmarks = LazyLoad('../pages/Bookmarks/Bookmarks')
 const FollowInfo = LazyLoad('../pages/FollowInfo/FollowInfo')
+const CreateProfile = LazyLoad('../pages/CreateProfile/CreateProfile')
 
 function App() {
 
@@ -63,6 +64,7 @@ function App() {
           <Route path='/post' element={<PostModal/>}/>
           <Route path='/status/:id' element={<ShowComments/>}/>
           <Route path='/following' element={<FollowInfo/>}/>
+          <Route path='/create-profile' element={<CreateProfile/>}/>
           <Route path='/soon' element={<Soon/>}/>
         </Route>
       </Routes>

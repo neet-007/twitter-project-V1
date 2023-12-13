@@ -253,6 +253,16 @@ try{
 }
 }
 
+const getUserProfile = async (id) => {
+  try {
+    const response = await axios.get(`/twitter/get-user-profile/${id}`)
+    console.log(response)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const getUserFollowing = async (id) => {
   try {
     const response = await axios.get(`/twitter/show-following/${id}`)
@@ -272,4 +282,15 @@ const getUserFollowers = async (id) => {
     console.log(error)
   }
 }
-export {register, logIn, logOut, getCurrentUser, showUsers, getPosts, getPostsByUser, getPostsByFollowing, getCommentsForPost, getPostWithComments, getBookmarkedPosts, getListPosts, newPost, newComment, addLike, addBookmark, follow, unFollow, getUserFollowing, getUserFollowers}
+
+const search = async ({q, f}) => {
+  try {
+    const filter = f? f : ''
+    const response = await axios.get(`/twitter/search?q=${q}${filter}`)
+    console.log(response)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+export {register, logIn, logOut, getCurrentUser, showUsers, getPosts, getPostsByUser, getPostsByFollowing, getCommentsForPost, getPostWithComments, getBookmarkedPosts, getListPosts, newPost, newComment, addLike, addBookmark, follow, unFollow, getUserProfile, getUserFollowing, getUserFollowers, search}

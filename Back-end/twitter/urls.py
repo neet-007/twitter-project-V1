@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from django.views.generic import TemplateView
 from . import views
 
@@ -8,6 +8,7 @@ urlpatterns = [
     path('login', views.login_view.as_view(), name='login'),
     path('logout', views.logout_view.as_view(), name='logout'),
     path('current-user', views.getCurrentUser.as_view(), name='current-user'),
+    path('get-user-profile/<int:pk>', views.getUserProfile.as_view(), name='get-user-profile'),
     path('post-feed', views.get_post_feed.as_view(), name='post-feed'),
     path('post-feed-by-user/<int:pk>', views.get_post_feed_by_user.as_view(), name='post-feed-by-user'),
     path('post-feed-by-following', views.get_post_feed_by_followings.as_view(), name='post-feed-by-following'),
@@ -30,7 +31,9 @@ urlpatterns = [
     path('show-followers/<int:pk>', views.show_followers.as_view(), name='show-followers'),
     path('show-following/<int:pk>', views.show_following.as_view(), name='show-following'),
     path('follow/<int:pk>', views.Follow_view.as_view(), name='follow'),
-    path('unfollow/<int:pk>', views.Unfollow.as_view(), name='unfollow')
+    path('unfollow/<int:pk>', views.Unfollow.as_view(), name='unfollow'),
+    path('search', views.search_view.as_view(), name='search'),
+    path('auth/', include('twitter.authurls'))
 ]
 
 urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]

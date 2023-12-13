@@ -26,12 +26,6 @@ function PostCard({postId, postContent, username, mention, createdAt,
   const switchComment = () => {
     setCommentDetails({
       postIdComment:postId,
-      postContentComment:postContent,
-      usernameComment:username,
-      mentionComment:mention,
-      created_at:createdAtFortmated,
-      likesComment:likes,
-      user_id:userId
     })
   }
 

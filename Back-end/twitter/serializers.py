@@ -4,7 +4,7 @@ from .models import User, Post, Comment, Like, Follow, Bookmark, Lists
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'bio', 'mention', 'followers_count', 'following_count', 'post_count']
+        fields = ['id', 'username', 'bio', 'mention', 'profile_pic', 'followers_count', 'following_count', 'post_count']
 
 class ListSerializers(serializers.ModelSerializer):
     user_list = UserSerializers(read_only=True)
